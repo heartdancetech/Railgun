@@ -1,9 +1,11 @@
-module github.com/misaka-go/misaka-gateway
+module dipole-gateway
 
-go 1.13
+go 1.12
 
 require (
-	github.com/sirupsen/logrus v1.4.2 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.4.0 // indirect
+	github.com/coreos/etcd v3.3.16+incompatible // indirect
+	github.com/google/uuid v1.1.1 // indirect
+	github.com/sirupsen/logrus v1.4.2
+	github.com/spf13/viper v1.4.0
+	go.etcd.io/etcd v3.3.16+incompatible
 )

@@ -1,13 +1,10 @@
-package main
+package common
 
 import (
 	"fmt"
 	"net/http"
 	"net/http/httputil"
-	"os"
-	"os/signal"
 	"strings"
-	"syscall"
 )
 
 // NewReverseProxy 创建反向代理处理方法
@@ -18,7 +15,7 @@ func NewReverseProxy() *httputil.ReverseProxy {
 		ServicePort int
 	}{
 		ServiceAddress: "localhost",
-		ServicePort: 8081,
+		ServicePort: 8080,
 	}
 	//创建Director
 	director := func(req *http.Request) {
@@ -53,24 +50,4 @@ func NewReverseProxy() *httputil.ReverseProxy {
 
 	return &httputil.ReverseProxy{Director: director, ModifyResponse: modifyResponse}
 
-}
-
-
-func main() {
-	//创建反向代理
-	proxy := NewReverseProxy()
-
-	errc := make(chan error)
-	go func() {
-		c := make(chan os.Signal)
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
-		errc <- fmt.Errorf("%s", <-c)
-	}()
-
-	//开始监听
-	go func() {
-		errc <- http.ListenAndServe(":9090", proxy)
-	}()
-
-	<-errc
 }
