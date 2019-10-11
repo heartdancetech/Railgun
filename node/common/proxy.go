@@ -8,17 +8,12 @@ import (
 )
 
 // NewReverseProxy 创建反向代理处理方法
-func NewReverseProxy() *httputil.ReverseProxy {
+func NewReverseProxy(ctx *Context) *httputil.ReverseProxy {
+	fmt.Println("ctx",ctx.GetServices())
 
-	var target = struct{
-		ServiceAddress string
-		ServicePort int
-	}{
-		ServiceAddress: "localhost",
-		ServicePort: 8080,
-	}
 	//创建Director
 	director := func(req *http.Request) {
+		services := ctx.GetServices()
 
 		//查询原始请求路径，如：/arithmetic/calculate/10/5
 		reqPath := req.URL.Path
@@ -28,6 +23,12 @@ func NewReverseProxy() *httputil.ReverseProxy {
 		//按照分隔符'/'对路径进行分解，获取服务名称serviceName
 		pathArray := strings.Split(reqPath, "/")
 		serviceName := pathArray[1]
+		// TODO load balance
+		host, ok := services[serviceName]["node01"]
+		if !ok {
+
+		}
+
 		fmt.Println(serviceName)
 
 		//重新组织请求路径，去掉服务名称部分
@@ -39,7 +40,7 @@ func NewReverseProxy() *httputil.ReverseProxy {
 
 		//设置代理服务地址信息
 		req.URL.Scheme = "http"
-		req.URL.Host = fmt.Sprintf("%s:%d", target.ServiceAddress, target.ServicePort)
+		req.URL.Host = host
 		req.URL.Path = "/" + destPath
 	}
 

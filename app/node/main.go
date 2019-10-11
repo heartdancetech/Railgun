@@ -1,40 +1,24 @@
 package main
 
 import (
-	"context"
 	"dipole-gateway/node/common"
+	"dipole-gateway/node/discovery"
 	"fmt"
-	"go.etcd.io/etcd/clientv3"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 )
 
 
 func main() {
-
-	cli, err := clientv3.New(clientv3.Config{
-		Endpoints:   []string{"localhost:2379", "localhost:22379", "localhost:32379"},
-		DialTimeout: 5 * time.Second,
-	})
-	if err != nil {
-		// handle error!
-	}
-	defer cli.Close()
-
-	ctx, _ := context.WithTimeout(context.Background(), 2*time.Second)
-
-	resp, err := cli.Get(ctx, "/app01/", clientv3.WithPrefix())
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(resp)
-	fmt.Println(resp.Kvs)
+	//初始化配置
+	cli, _ := discovery.NewClientDis([]string{"localhost:2379"})
+	ctx ,_ := cli.InitServices("/service")
 
 	//创建反向代理
-	proxy := common.NewReverseProxy()
+	proxy := common.NewReverseProxy(ctx)
+
 
 	errc := make(chan error)
 	go func() {
@@ -43,9 +27,21 @@ func main() {
 		errc <- fmt.Errorf("%s", <-c)
 	}()
 
+
 	//开始监听
 	go func() {
-		errc <- http.ListenAndServe(":9090", proxy)
+		var http01 = http.NewServeMux()
+		http01.Handle("/", proxy)
+		//http01.HandleFunc("/", )
+		errc <- http.ListenAndServe(":9090", http01)
+
+	}()
+
+	go func() {
+		var http02 = http.NewServeMux()
+		http02.Handle("/", proxy)
+		errc <- http.ListenAndServe(":9091", http02)
+
 	}()
 
 	<-errc
