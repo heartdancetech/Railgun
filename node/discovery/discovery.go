@@ -2,35 +2,34 @@ package discovery
 
 import (
 	"context"
-	"dipole-gateway/node/common"
 	"fmt"
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/mvcc/mvccpb"
 	"log"
+	"misaka-gateway/node/common"
 	"strings"
 	"time"
 )
 
 type ClientDis struct {
-	client        *clientv3.Client
-	ctx *common.Context
+	client *clientv3.Client
+	ctx    *common.Context
 }
 
-func NewClientDis (addr []string)( *ClientDis, error){
+func NewClientDis(addr []string) (*ClientDis, error) {
 	conf := clientv3.Config{
 		Endpoints:   addr,
 		DialTimeout: 5 * time.Second,
 	}
 	if client, err := clientv3.New(conf); err == nil {
 		return &ClientDis{
-			client:client,
+			client: client,
 		}, nil
 	} else {
 		client = nil
-		return nil ,err
+		return nil, err
 	}
 }
-
 
 func (c *ClientDis) watcher(prefix string) {
 	rch := c.client.Watch(context.Background(), prefix, clientv3.WithPrefix())
@@ -38,7 +37,7 @@ func (c *ClientDis) watcher(prefix string) {
 		for _, ev := range wresp.Events {
 			switch ev.Type {
 			case mvccpb.PUT:
-				c.UpdateServiceList(string(ev.Kv.Key),string(ev.Kv.Value))
+				c.UpdateServiceList(string(ev.Kv.Key), string(ev.Kv.Value))
 			case mvccpb.DELETE:
 				c.DelServiceList(string(ev.Kv.Key))
 			}
@@ -60,19 +59,21 @@ func (c *ClientDis) watcher(prefix string) {
 //	return addrs
 //}
 
-func (c *ClientDis) UpdateServiceList(key,val string) {
-	service := strings.Split(key,"/")[2]
-	serviceNode := strings.Split(key,"/")[3]
+func (c *ClientDis) UpdateServiceList(key, val string) {
+	service := strings.Split(key, "/")[2]
+	serviceNode := strings.Split(key, "/")[3]
 	c.ctx.UpdateServices(service, serviceNode, val)
-	log.Println("set data key :",key,"val:",val)
+	log.Println("set data key :", key, "val:", val)
 }
+
 //
 func (c *ClientDis) DelServiceList(key string) {
-	service := strings.Split(key,"/")[2]
-	serviceNode := strings.Split(key,"/")[3]
+	service := strings.Split(key, "/")[2]
+	serviceNode := strings.Split(key, "/")[3]
 	c.ctx.DelServices(service, serviceNode)
 	log.Println("del data key:", key)
 }
+
 //
 //func (c *ClientDis) SerList2Array()[]string {
 //	c.lock.Lock()
@@ -92,8 +93,8 @@ func (c *ClientDis) InitServices(serviceName string) (*common.Context, error) {
 	}
 	var services = make(map[string]map[string]string)
 	for _, v := range resp.Kvs {
-		service := strings.Split(string(v.Key),"/")[2]
-		serviceNode := strings.Split(string(v.Key),"/")[3]
+		service := strings.Split(string(v.Key), "/")[2]
+		serviceNode := strings.Split(string(v.Key), "/")[3]
 		if services[service] == nil {
 			services[service] = make(map[string]string)
 		}
@@ -102,5 +103,5 @@ func (c *ClientDis) InitServices(serviceName string) (*common.Context, error) {
 	fmt.Println(services)
 	c.ctx = common.InitContext(services)
 	go c.watcher(serviceName)
-	return c.ctx,nil
+	return c.ctx, nil
 }

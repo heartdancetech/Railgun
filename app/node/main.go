@@ -1,24 +1,22 @@
 package main
 
 import (
-	"dipole-gateway/node/common"
-	"dipole-gateway/node/discovery"
 	"fmt"
+	"misaka-gateway/node/common"
+	"misaka-gateway/node/discovery"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 )
 
-
 func main() {
 	//初始化配置
 	cli, _ := discovery.NewClientDis([]string{"localhost:2379"})
-	ctx ,_ := cli.InitServices("/service")
+	ctx, _ := cli.InitServices("/service")
 
 	//创建反向代理
 	proxy := common.NewReverseProxy(ctx)
-
 
 	errc := make(chan error)
 	go func() {
@@ -26,7 +24,6 @@ func main() {
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
 		errc <- fmt.Errorf("%s", <-c)
 	}()
-
 
 	//开始监听
 	go func() {
