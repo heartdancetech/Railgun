@@ -1,4 +1,4 @@
-module dipole-gateway
+module misaka-gateway
 
 go 1.12
 
