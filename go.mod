@@ -1,4 +1,4 @@
-module misaka-gateway
+module LastOrder-api-gateway
 
 go 1.12
 

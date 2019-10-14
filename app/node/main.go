@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"misaka-gateway/node/common"
-	"misaka-gateway/node/discovery"
+	"LastOrder-api-gateway/node/common"
+	"LastOrder-api-gateway/node/discovery"
 	"net/http"
 	"os"
 	"os/signal"
