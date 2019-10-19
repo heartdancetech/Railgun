@@ -86,7 +86,7 @@ func (c *ClientDis) DelServiceList(key string) {
 //	return addrs
 //}
 
-func (c *ClientDis) InitServices(serviceName string) (*common2.Context, error) {
+func (c *ClientDis) InitServices(serviceName string) (*common.Context, error) {
 	resp, err := c.client.Get(context.Background(), serviceName, clientv3.WithPrefix())
 	if err != nil {
 		return nil, err
@@ -101,7 +101,7 @@ func (c *ClientDis) InitServices(serviceName string) (*common2.Context, error) {
 		services[service][serviceNode] = string(v.Value)
 	}
 	fmt.Println(services)
-	c.ctx = common2.InitContext(services)
+	c.ctx = common.InitContext(services)
 	go c.watcher(serviceName)
 	return c.ctx, nil
 }

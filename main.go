@@ -35,7 +35,6 @@ func main() {
 	go func() {
 		var http01 = http.NewServeMux()
 		http01.Handle("/", proxy)
-		//http01.HandleFunc("/", )
 		errChannel <- http.ListenAndServe(":9090", http01)
 
 	}()
