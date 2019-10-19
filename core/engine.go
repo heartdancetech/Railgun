@@ -9,18 +9,19 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
 )
 
 type Engine struct {
-	//pool             sync.Pool
+	pool sync.Pool
 }
 
 func New() *Engine {
 	engine := &Engine{}
-	//engine.pool.New = func() interface{} {
-	//	return engine.allocateContext()
-	//}
+	engine.pool.New = func() interface{} {
+		return engine.allocateContext()
+	}
 	return engine
 }
 
@@ -61,7 +62,7 @@ func (e *Engine) Run() {
 	go func() {
 		var http01 = http.NewServeMux()
 		http01.Handle("/", proxy)
-		errChannel <- http.ListenAndServe(":9091", http01)
+		errChannel <- http.ListenAndServe(":9091", proxy)
 
 	}()
 
