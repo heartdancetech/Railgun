@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"LastOrder-api-gateway/node/common"
-	"LastOrder-api-gateway/node/discovery"
+	"github.com/MisakaSystem/LastOrder/common"
+	"github.com/MisakaSystem/LastOrder/discovery"
 	"net/http"
 	"os"
 	"os/signal"
@@ -31,13 +31,6 @@ func main() {
 		http01.Handle("/", proxy)
 		//http01.HandleFunc("/", )
 		errc <- http.ListenAndServe(":9090", http01)
-
-	}()
-
-	go func() {
-		var http02 = http.NewServeMux()
-		http02.Handle("/", proxy)
-		errc <- http.ListenAndServe(":9091", http02)
 
 	}()
 

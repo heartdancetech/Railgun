@@ -9,7 +9,7 @@ import (
 
 // NewReverseProxy 创建反向代理处理方法
 func NewReverseProxy(ctx *Context) *httputil.ReverseProxy {
-	fmt.Println("ctx",ctx.GetServices())
+	fmt.Println("ctx", ctx.GetServices())
 
 	//创建Director
 	director := func(req *http.Request) {

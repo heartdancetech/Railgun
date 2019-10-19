@@ -1,6 +1,6 @@
 [English](./README_EN.md) | 简体中文
 
-# LastOrder-API-Gateway
+# LastOrder
 
 使用[Golang](https://github.com/golang/go)编写的网关服务
 

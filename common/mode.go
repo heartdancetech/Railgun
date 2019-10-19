@@ -1,4 +1,4 @@
-package node
+package common
 
 import "os"
 
@@ -9,7 +9,6 @@ const (
 	DebugMode = "debug"
 	// ReleaseMode indicates  mode is release.
 	ReleaseMode = "release"
-
 )
 const (
 	debugCode = iota
