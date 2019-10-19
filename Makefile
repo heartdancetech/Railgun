@@ -23,28 +23,18 @@ go-tool:
 	gofmt -w .
 # 	go vet -v $(go list ./...| grep -v /vendor/)
 
-swag:
-	swag init
-
-build-gateway:
+build:
 	@go build -v -ldflags ${ldflags}  -o ${gatewayName} main.go
 
 build-gateway-docker:
 	docker build -t ${gatewayName}:${gitTag} .
 	rm -f ${gatewayName}
 
-push-gateway:
-	docker tag  ${gatewayName}:${gitTag} 47.75.63.61:5000/${gatewayName}:${gitTag}
-	docker push 47.75.63.61:5000/${gatewayName}:${gitTag}
-
 
 help:
 	@echo "make - compile the source code to docker image"
 	@echo "make clean - remove binary file and vim swp files"
-	@echo "make swag - make swag doc"
 	@echo "make gotool - run go tool 'fmt' and 'vet'"
-	@echo "make build - build binary"
-	@echo "make build gateway - build gateway binary"
-	@echo "make push image to remote"
+	@echo "make build - build gateway binary"
 
 .PHONY: clean go tool help

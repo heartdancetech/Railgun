@@ -2,7 +2,6 @@ package common
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/spf13/pflag"
 	"os"
@@ -43,12 +42,12 @@ func FlagInit() error {
 			os.Exit(1)
 		}
 		fmt.Println(string(marshalled))
-		return errors.New("stop")
+		os.Exit(1)
 	}
 
 	if *help {
 		pflag.PrintDefaults()
-		return errors.New("stop")
+		os.Exit(1)
 	}
 
 	// init config
