@@ -2,7 +2,7 @@ package discovery
 
 import (
 	"context"
-	"fmt"
+	"errors"
 	"github.com/MisakaSystem/LastOrder/common"
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/mvcc/mvccpb"
@@ -21,14 +21,24 @@ func NewClientDis(addr []string) (*ClientDis, error) {
 		Endpoints:   addr,
 		DialTimeout: 5 * time.Second,
 	}
-	if client, err := clientv3.New(conf); err == nil {
+	client, err := clientv3.New(conf)
+	if err != nil {
+		client = nil
+		return nil, errors.New("etcd connect faild")
+
+	} else {
+		//timeoutCtx, cancel := context.WithTimeout(context.Background(), 2 * time.Second)
+		//defer cancel()
+		//_, err = client.Status(timeoutCtx, addr[0])
+		//if err != nil {
+		//	logger.SelfLogger(err).Info("connect etcd fail")
+		//	return nil,err
+		//}
 		return &ClientDis{
 			client: client,
 		}, nil
-	} else {
-		client = nil
-		return nil, err
 	}
+
 }
 
 func (c *ClientDis) watcher(prefix string) {
@@ -100,7 +110,6 @@ func (c *ClientDis) InitServices(serviceName string) (*common.Context, error) {
 		}
 		services[service][serviceNode] = string(v.Value)
 	}
-	fmt.Println(services)
 	c.ctx = common.InitContext(services)
 	go c.watcher(serviceName)
 	return c.ctx, nil

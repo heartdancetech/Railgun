@@ -1,8 +1,8 @@
-package common
+package core
 
 import "os"
 
-const EnvMode = "DIPOLE_GATEWAY_MODE"
+const EnvMode = "GATEWAY_MODE"
 
 const (
 	// DebugMode indicates  mode is debug.
@@ -30,7 +30,7 @@ func SetMode(value string) {
 	case ReleaseMode:
 		gatewayMode = releaseCode
 	default:
-		panic("gin mode unknown: " + value)
+		panic("mode unknown: " + value)
 	}
 	if value == "" {
 		value = DebugMode

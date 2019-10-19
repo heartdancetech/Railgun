@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	"github.com/MisakaSystem/LastOrder/logger"
 	"net/http"
 	"net/http/httputil"
 	"strings"
@@ -14,6 +15,7 @@ func NewReverseProxy(ctx *Context) *httputil.ReverseProxy {
 	//创建Director
 	director := func(req *http.Request) {
 		services := ctx.GetServices()
+		logger.SelfLogger().Debug(services)
 
 		//查询原始请求路径，如：/arithmetic/calculate/10/5
 		reqPath := req.URL.Path
