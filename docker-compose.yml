@@ -1,9 +1,5 @@
 version: "3"
 
-networks:
-  dipole.tech:
-    external:
-      name: net_dipole
 
 services:
   etcd01:
@@ -30,7 +26,3 @@ services:
       volumes:
         - ./data:/etcd-data
         # - "/data/config/etcd/ca-certificates/:/etc/ssl/certs"
-      networks:
-        dipole.tech:
-          aliases:
-            - etcd01.dipole.tech
