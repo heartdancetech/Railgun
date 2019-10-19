@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/MisakaSystem/LastOrder/common"
 	"github.com/MisakaSystem/LastOrder/discovery"
+	"github.com/spf13/viper"
 	"net/http"
 	"os"
 	"os/signal"
@@ -11,18 +12,23 @@ import (
 )
 
 func main() {
+	if err := common.FlagInit(); err != nil {
+		return
+	}
 	//初始化配置
-	cli, _ := discovery.NewClientDis([]string{"localhost:2379"})
+	etcdList := viper.GetStringSlice("etcd.url")
+	common.SetMode(viper.GetString("runMode"))
+	cli, _ := discovery.NewClientDis(etcdList)
 	ctx, _ := cli.InitServices("/service")
 
 	//创建反向代理
 	proxy := common.NewReverseProxy(ctx)
 
-	errc := make(chan error)
+	errChannel := make(chan error)
 	go func() {
 		c := make(chan os.Signal)
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
-		errc <- fmt.Errorf("%s", <-c)
+		errChannel <- fmt.Errorf("%s", <-c)
 	}()
 
 	//开始监听
@@ -30,9 +36,9 @@ func main() {
 		var http01 = http.NewServeMux()
 		http01.Handle("/", proxy)
 		//http01.HandleFunc("/", )
-		errc <- http.ListenAndServe(":9090", http01)
+		errChannel <- http.ListenAndServe(":9090", http01)
 
 	}()
 
-	<-errc
+	<-errChannel
 }
