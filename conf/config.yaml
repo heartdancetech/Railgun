@@ -1,0 +1,4 @@
+runMode: debug
+etcd:
+  url:
+    - localhost:2379
