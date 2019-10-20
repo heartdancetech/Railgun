@@ -4,5 +4,5 @@ import "github.com/MisakaSystem/LastOrder/core"
 
 func main() {
 	g := core.New()
-	g.Run()
+	_ = g.Run()
 }
