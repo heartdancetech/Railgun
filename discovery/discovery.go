@@ -24,7 +24,7 @@ func NewClientDis(addr []string) (*ClientDis, error) {
 	client, err := clientv3.New(conf)
 	if err != nil {
 		client = nil
-		return nil, errors.New("etcd connect faild")
+		return nil, errors.New("etcd connect failed")
 
 	} else {
 		//timeoutCtx, cancel := context.WithTimeout(context.Background(), 2 * time.Second)
