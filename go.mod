@@ -3,7 +3,7 @@ module github.com/MisakaSystem/LastOrder
 go 1.12
 
 require (
-	github.com/coreos/etcd v3.3.10+incompatible
+	github.com/coreos/etcd v3.3.17+incompatible
 	github.com/fsnotify/fsnotify v1.4.7
 	github.com/google/uuid v1.1.1 // indirect
 	github.com/sirupsen/logrus v1.4.2
