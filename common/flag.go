@@ -10,6 +10,7 @@ import (
 
 var (
 	cfg     = pflag.StringP("config", "c", "conf/config.yaml", "api server config file path")
+	etcdUrl = pflag.StringArrayP("etcd-urls-list", "", []string{"localhost:2379", "localhost:2379"}, "etcd urls")
 	version = pflag.BoolP("version", "v", false, "show version info.")
 	help    = pflag.BoolP("help", "h", false, "show help info.")
 )
