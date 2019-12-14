@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/MisakaSystem/LastOrder/common"
+	"github.com/MisakaSystem/LastOrder/logger"
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/mvcc/mvccpb"
 	"log"
@@ -27,13 +28,13 @@ func NewClientDis(addr []string) (*ClientDis, error) {
 		return nil, errors.New("etcd connect faild")
 
 	} else {
-		//timeoutCtx, cancel := context.WithTimeout(context.Background(), 2 * time.Second)
-		//defer cancel()
-		//_, err = client.Status(timeoutCtx, addr[0])
-		//if err != nil {
-		//	logger.SelfLogger(err).Info("connect etcd fail")
-		//	return nil,err
-		//}
+		timeoutCtx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+		defer cancel()
+		_, err = client.Status(timeoutCtx, addr[0])
+		if err != nil {
+			logger.SelfLogger().WithError(err).Info("connect etcd fail")
+			return nil, err
+		}
 		return &ClientDis{
 			client: client,
 		}, nil
@@ -110,6 +111,7 @@ func (c *ClientDis) InitServices(serviceName string) (*common.Context, error) {
 		}
 		services[service][serviceNode] = string(v.Value)
 	}
+	logger.SelfLogger().Debug(services)
 	c.ctx = common.InitContext(services)
 	go c.watcher(serviceName)
 	return c.ctx, nil
