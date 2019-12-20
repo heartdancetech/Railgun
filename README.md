@@ -1,3 +1,6 @@
+[![](https://img.shields.io/travis/MisakaSystem/LastOrder.svg?branch=master)](https://travis-ci.com/MisakaSystem/LastOrder)
+[![](https://img.shields.io/github/license/MisakaSystem/LastOrder)](https://opensource.org/licenses/MIT)
+
 English | [简体中文](./README_CN.md)
 
 # LastOrder
