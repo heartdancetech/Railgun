@@ -13,7 +13,7 @@ ldflags="-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${build
 
 all: export GOOS=linux
 all: export GOARCH=amd64
-all: go-tool build-gateway
+all: go-tool build
 
 clean:
 	rm -f ${gatewayName}
