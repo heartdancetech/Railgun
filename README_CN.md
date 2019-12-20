@@ -1,16 +1,18 @@
-English | [简体中文](./README_CN.md)
+[English](./README.md) | 简体中文
 
 # LastOrder
 
-A Gateway written by [Golang]
+使用[Golang](https://github.com/golang/go)编写的网关服务
+
+## 资源
 
 1. [Roadmap](https://github.com/MisakaSystem/LastOrder-roadmap)
 
-## Feature
+## 特性
 
-1. Routing
-2. Service Discovery
-3. Web UI
+1. 路由转发
+2. 服务发现
+3. 控制台
 
 ## JetBrains OS licenses
 
@@ -20,7 +22,7 @@ A Gateway written by [Golang]
 
 ## FAQ
 
-### Why is it called dva?
+### 命名由来？
 
 > 动漫作品《[魔法禁书目录](https://baike.baidu.com/item/魔法禁书目录/25423)》中的人物。[御坂网络](https://baike.baidu.com/item/御坂网络/8582829?fr=aladdin)中的上位个体，检体番号 20001 号，是所有御坂妹妹的司令塔，是为了防止“妹妹们”反叛、失控而制作出来的安全装置。和御坂网络中的其他个体不同，具有较丰富的表情，头顶上有一根呆毛。
 
@@ -29,5 +31,3 @@ A Gateway written by [Golang]
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license)
-
-[golang]: https://github.com/golang/go
