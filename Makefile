@@ -1,40 +1,46 @@
 SHELL := /bin/bash
 BASEDIR = $(shell pwd)
 
-# build with verison infos
-gatewayName = "LastOrder"
-# versionDir = "dipole-gateway"
+APP = "LastOrder"
+BuildDIR = build
 gitTag = $(shell if [ "`git describe --tags --abbrev=0 2>/dev/null`" != "" ];then git describe --tags --abbrev=0 | sed 's/v//g'; else git log --pretty=format:'%h' -n 1; fi)
 buildDate = $(shell TZ=Asia/Shanghai date +%FT%T%z)
 gitCommit = $(shell git log --pretty=format:'%H' -n 1)
 gitTreeState = $(shell if git status|grep -q 'clean';then echo clean; else echo dirty; fi)
+versionDir = "github.com/MisakaSystem/LastOrder/cmd"
+ldflags= "-X ${versionDir}.gitTag=${gitTag} \
+-X ${versionDir}.buildDate=${buildDate} \
+-X ${versionDir}.gitCommit=${gitCommit} \
+-X ${versionDir}.gitTreeState=${gitTreeState}"
 
-ldflags="-w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState}"
-
-all: export GOOS=linux
-all: export GOARCH=amd64
 all: go-tool build
+	@ls -al build/
 
 clean:
-	rm -f ${gatewayName}
-# 	find . -name "[._]*.s[a-w][a-z]" | xargs -i rm -f {}
+	@rm -rvf build/
 
 go-tool:
 	gofmt -w .
-# 	go vet -v $(go list ./...| grep -v /vendor/)
 
-build:
-	@go build -v -ldflags ${ldflags}  -o ${gatewayName} main.go
+release:
+	# Build for linux
+	go clean
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o ${BuildDIR}/${APP}-${gitTag}-linux64-amd64
+	# Build for win
+	go clean
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -o ${BuildDIR}/${APP}-${gitTag}-windows-amd64.exe
+	# Build for mac
+	go clean
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ${BuildDIR}/${APP}-${gitTag}-darwin-amd64
 
-build-gateway-docker:
-	docker build -t ${gatewayName}:${gitTag} .
-	rm -f ${gatewayName}
+build-docker:
+	docker build -t ${APP}-${gitTag}-linux64-amd64:${gitTag} .
 
 
 help:
 	@echo "make - compile the source code to docker image"
 	@echo "make clean - remove binary file and vim swp files"
 	@echo "make gotool - run go tool 'fmt' and 'vet'"
-	@echo "make build - build gateway binary"
+	@echo "make release - build gateway binary"
 
-.PHONY: clean go tool help
+.PHONY: clean go-tool help
