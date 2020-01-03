@@ -1,8 +1,7 @@
 package main
 
-import "github.com/MisakaSystem/LastOrder/core"
+import "github.com/MisakaSystem/LastOrder/cmd"
 
 func main() {
-	g := core.New()
-	_ = g.Run()
+	cmd.Execute()
 }
