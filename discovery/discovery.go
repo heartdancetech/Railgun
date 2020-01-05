@@ -33,7 +33,7 @@ func NewClientDis(addr []string) (*ClientDis, error) {
 		defer cancel()
 		_, err = client.Status(timeoutCtx, addr[0])
 		if err != nil {
-			logger.Error("connect etcd fail", zap.Error(err))
+			logger.Panic("connect etcd fail", zap.Error(err))
 			return nil, err
 		}
 		return &ClientDis{

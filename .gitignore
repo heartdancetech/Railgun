@@ -85,3 +85,5 @@ fabric.properties
 data/
 go.sum
 .DS_Store
+log
+build
