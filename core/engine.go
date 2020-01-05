@@ -5,6 +5,7 @@ import (
 	"github.com/MisakaSystem/LastOrder/discovery"
 	"github.com/MisakaSystem/LastOrder/logger"
 	"github.com/spf13/viper"
+	"go.uber.org/zap"
 	"net"
 	"net/http"
 	"sync"
@@ -57,13 +58,13 @@ func (e *ProxyEngine) Run() error {
 	SetMode(viper.GetString("runMode"))
 	cli, err := discovery.NewClientDis(etcdList)
 	if err != nil {
-		logger.SelfLogger().WithField("error", err).Error()
+		logger.Panic("", zap.Error(err))
 		return err
 	}
 
 	ctx, err := cli.InitServices("/service")
 	if err != nil {
-		logger.SelfLogger().WithField("error", err).Error()
+		logger.Panic("", zap.Error(err))
 		return err
 	}
 
@@ -86,6 +87,6 @@ func (e *ProxyEngine) Run() error {
 	return nil
 }
 
-func (e *ProxyEngine) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-
-}
+//func (e *ProxyEngine) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+//
+//}

@@ -7,6 +7,7 @@ import (
 	"github.com/MisakaSystem/LastOrder/logger"
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/mvcc/mvccpb"
+	"go.uber.org/zap"
 	"log"
 	"strings"
 	"time"
@@ -32,7 +33,7 @@ func NewClientDis(addr []string) (*ClientDis, error) {
 		defer cancel()
 		_, err = client.Status(timeoutCtx, addr[0])
 		if err != nil {
-			logger.SelfLogger().WithError(err).Info("connect etcd fail")
+			logger.Error("connect etcd fail", zap.Error(err))
 			return nil, err
 		}
 		return &ClientDis{
@@ -111,7 +112,6 @@ func (c *ClientDis) InitServices(serviceName string) (*common.Context, error) {
 		}
 		services[service][serviceNode] = string(v.Value)
 	}
-	logger.SelfLogger().Debug(services)
 	c.ctx = common.InitContext(services)
 	go c.watcher(serviceName)
 	return c.ctx, nil
