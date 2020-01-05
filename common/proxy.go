@@ -1,7 +1,6 @@
 package common
 
 import (
-	"fmt"
 	"github.com/MisakaSystem/LastOrder/logger"
 	"go.uber.org/zap"
 	"net/http"
@@ -11,8 +10,6 @@ import (
 
 // NewReverseProxy 创建反向代理处理方法
 func NewReverseProxy(ctx *Context) *httputil.ReverseProxy {
-	fmt.Println("ctx", ctx.GetServices())
-
 	//创建Director
 	director := func(req *http.Request) {
 		services := ctx.GetServices()
@@ -29,10 +26,8 @@ func NewReverseProxy(ctx *Context) *httputil.ReverseProxy {
 		// TODO load balance
 		host, ok := services[serviceName]["node01"]
 		if !ok {
-
+			return
 		}
-
-		fmt.Println(serviceName)
 
 		//重新组织请求路径，去掉服务名称部分
 		destPath := strings.Join(pathArray[2:], "/")
@@ -48,7 +43,6 @@ func NewReverseProxy(ctx *Context) *httputil.ReverseProxy {
 	}
 
 	modifyResponse := func(res *http.Response) error {
-		fmt.Println(res.Body)
 		return nil
 	}
 
