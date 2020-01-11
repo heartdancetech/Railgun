@@ -2,7 +2,6 @@ package logger
 
 import (
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
-	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"io"
@@ -14,7 +13,7 @@ var logger *zap.Logger
 
 //var logLevel = zap.NewAtomicLevel()
 
-func Init(mode string) {
+func Init(mode, key string) {
 	proEncoder := zapcore.NewJSONEncoder(zapcore.EncoderConfig{
 		MessageKey:  "msg",
 		LevelKey:    "level",
@@ -55,9 +54,9 @@ func Init(mode string) {
 		return lvl >= zapcore.WarnLevel
 	})
 
-	debugHook := getWriter("./log/" + viper.GetString("name") + "_debug")
-	infoHook := getWriter("./log/" + viper.GetString("name") + "_info")
-	warnHook := getWriter("./log/" + viper.GetString("name") + "_error")
+	debugHook := getWriter("./log/" + key + "_debug")
+	infoHook := getWriter("./log/" + key + "_info")
+	warnHook := getWriter("./log/" + key + "_error")
 	var core zapcore.Core
 	if mode == "debug" {
 		core = zapcore.NewTee(
