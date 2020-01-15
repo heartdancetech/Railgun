@@ -1,5 +1,7 @@
 [![](https://api.travis-ci.com/MisakaSystem/LastOrder.svg?branch=master)](https://travis-ci.com/MisakaSystem/LastOrder)
 [![](https://img.shields.io/github/license/MisakaSystem/LastOrder)](https://opensource.org/licenses/MIT)
+![](https://img.shields.io/github/v/release/MisakaSystem/LastOrder)
+[![Go Report Card](https://goreportcard.com/badge/github.com/MisakaSystem/LastOrder)](https://goreportcard.com/report/github.com/MisakaSystem/LastOrder)
 
 English | [简体中文](./README_CN.md)
 
