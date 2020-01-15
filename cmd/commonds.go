@@ -8,15 +8,6 @@ import (
 )
 
 var (
-	// Used for flags.
-	cfgFile     string
-	userLicense string
-	//databaseName string
-	//host string
-	//port int
-	//user,password string
-	//outdir string
-
 	rootCmd = &cobra.Command{
 		Use:   "LastOrder",
 		Short: "",
@@ -25,7 +16,7 @@ var (
 		},
 		Run: func(cmd *cobra.Command, args []string) {
 			// Do Stuff Here
-			logger.Init("debug")
+			logger.Init("debug", viper.GetString("name"))
 			g := core.New()
 			_ = g.Run()
 		},
@@ -41,19 +32,17 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-
-	// TODO below params for test
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobra.yaml)")
-	rootCmd.PersistentFlags().StringVarP(&userLicense, "license", "l", "mit", "name of license for the project")
-	rootCmd.PersistentFlags().Bool("viper", true, "use Viper for configuration")
-	rootCmd.PersistentFlags().String("keo", "keo", "keo")
-	_ = viper.BindPFlag("useViper", rootCmd.PersistentFlags().Lookup("viper"))
-	_ = viper.BindPFlag("keo", rootCmd.PersistentFlags().Lookup("keo"))
-	_ = viper.BindEnv("keo", "TEST_KEO")
-	viper.SetDefault("author", "NAME HERE <EMAIL ADDRESS>")
+	rootCmd.PersistentFlags().StringSlice("etcdUrl", []string{"localhost:2379"}, "use etcd url")
+	rootCmd.PersistentFlags().String("runMode", "localhost:2379", "use etcd url")
+	rootCmd.PersistentFlags().String("addr", ":8000", "listen addr")
+	rootCmd.PersistentFlags().String("name", "last_order", "server name")
+	_ = viper.BindPFlag("etcdUrl", rootCmd.PersistentFlags().Lookup("etcdUrl"))
+	_ = viper.BindPFlag("runMode", rootCmd.PersistentFlags().Lookup("runMode"))
+	_ = viper.BindPFlag("addr", rootCmd.PersistentFlags().Lookup("addr"))
+	_ = viper.BindPFlag("name", rootCmd.PersistentFlags().Lookup("name"))
 }
 
 func initConfig() {
-	viper.SetEnvPrefix("test")
+	viper.SetEnvPrefix("last_order")
 	viper.AutomaticEnv()
 }
