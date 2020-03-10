@@ -50,9 +50,6 @@ func (e *ProxyEngine) allocateContext() *Context {
 }
 
 func (e *ProxyEngine) Run() error {
-	if err := common.FlagInit(); err != nil {
-		return err
-	}
 	//初始化配置
 	etcdList := viper.GetStringSlice("etcd.url")
 	SetMode(viper.GetString("runMode"))
