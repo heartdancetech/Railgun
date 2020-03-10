@@ -21,7 +21,7 @@ A Gateway written by [Golang]
 
 `LastOrder` had been being developed with GoLand under the **free JetBrains Open Source license(s)** granted by JetBrains s.r.o., hence I would like to express my thanks here.
 
-<a href="https://www.jetbrains.com/?from=LastOrder" target="_blank"><img src="https://github.com/gsxhnd/archive/blob/master/jetbrains-variant-4.png" width="250" align="middle"/></a>
+<a href="https://www.jetbrains.com/?from=LastOrder" target="_blank"><img src="https://github.com/gsxhnd/archive/blob/master/jetbrains-variant-4.png?raw=true" width="250" align="middle"/></a>
 
 ## FAQ
 
