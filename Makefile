@@ -13,7 +13,7 @@ ldflags= "-X ${versionDir}.gitTag=${gitTag} \
 -X ${versionDir}.gitCommit=${gitCommit} \
 -X ${versionDir}.gitTreeState=${gitTreeState}"
 
-all: go-tool build
+all: go-tool release
 	@ls -al build/
 
 clean:
