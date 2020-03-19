@@ -18,6 +18,8 @@ all: go-tool release
 
 clean:
 	@rm -rvf build/
+	@docker image prune
+	@docker rmi --force ${APP}-${gitTag}:${gitTag}
 
 go-tool:
 	gofmt -w .
@@ -34,11 +36,11 @@ release:
 	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o ${BuildDIR}/${APP}-${gitTag}-darwin-amd64
 
 build-docker:
-	docker build -t ${APP}-${gitTag}-linux64-amd64:${gitTag} .
+	docker build --build-arg BASE_BIN_NAME=${APP}-${gitTag}-linux64-amd64 -t ${APP}-${gitTag}:${gitTag} .
 
 
 help:
-	@echo "make - compile the source code to docker image"
+	@echo "make - compile the source code to binary"
 	@echo "make clean - remove binary file and vim swp files"
 	@echo "make gotool - run go tool 'fmt' and 'vet'"
 	@echo "make release - build gateway binary"
