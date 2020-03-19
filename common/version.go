@@ -22,10 +22,6 @@ type Info struct {
 	Platform     string `json:"platform"`
 }
 
-func (info Info) String() string {
-	return info.GitTag
-}
-
 func GetVersion() Info {
 	return Info{
 		GitTag:       gitTag,

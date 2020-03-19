@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/MisakaSystem/LastOrder/common"
 	"github.com/MisakaSystem/LastOrder/discovery"
 	"github.com/MisakaSystem/LastOrder/logger"
 	"github.com/spf13/viper"
@@ -39,20 +38,21 @@ type ProxyEngine struct {
 
 func New() *ProxyEngine {
 	engine := &ProxyEngine{}
-	engine.pool.New = func() interface{} {
-		return engine.allocateContext()
-	}
+	//engine.pool.New = func() interface{} {
+	//	return engine.allocateContext()
+	//}
 	return engine
 }
 
-func (e *ProxyEngine) allocateContext() *Context {
-	return &Context{engine: e}
-}
+//func (e *ProxyEngine) allocateContext() *Context {
+//	return &Context{engine: e}
+//}
 
 func (e *ProxyEngine) Run() error {
 	//初始化配置
-	etcdList := viper.GetStringSlice("etcd.url")
-	SetMode(viper.GetString("runMode"))
+	etcdList := viper.GetStringSlice("etcd-url")
+	SetMode(viper.GetString("run-mode"))
+
 	cli, err := discovery.NewClientDis(etcdList)
 	if err != nil {
 		logger.Panic("", zap.Error(err))
@@ -66,7 +66,7 @@ func (e *ProxyEngine) Run() error {
 	}
 
 	//创建反向代理
-	proxy := common.NewReverseProxy(ctx)
+	proxy := NewReverseProxy(ctx)
 
 	errChannel := make(chan error)
 	//go func() {
