@@ -76,26 +76,6 @@ func Init(mode, key string) {
 
 type Level int8
 
-//const (
-//	DebugLevel Level = iota - 1
-//
-//	InfoLevel
-//
-//	WarnLevel
-//
-//	ErrorLevel
-//
-//	DPanicLevel
-//
-//	PanicLevel
-//
-//	FatalLevel
-//)
-//
-//func SetLevel(level Level) {
-//	logLevel.SetLevel(zapcore.Level(level))
-//}
-
 func getWriter(filename string) io.Writer {
 	// 生成rotatelogs的Logger 实际生成的文件名 demo.log.YYmmddHH
 	// demo.log是指向最新日志的链接

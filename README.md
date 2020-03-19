@@ -25,7 +25,7 @@ A Gateway written by [Golang]
 
 ## FAQ
 
-### Why is it called dva?
+### Why is it called LastOrder?
 
 > 动漫作品《[魔法禁书目录](https://baike.baidu.com/item/魔法禁书目录/25423)》中的人物。[御坂网络](https://baike.baidu.com/item/御坂网络/8582829?fr=aladdin)中的上位个体，检体番号 20001 号，是所有御坂妹妹的司令塔，是为了防止“妹妹们”反叛、失控而制作出来的安全装置。和御坂网络中的其他个体不同，具有较丰富的表情，头顶上有一根呆毛。
 
