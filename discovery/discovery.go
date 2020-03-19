@@ -3,7 +3,7 @@ package discovery
 import (
 	"context"
 	"errors"
-	"github.com/MisakaSystem/LastOrder/common"
+	"github.com/MisakaSystem/LastOrder/core"
 	"github.com/MisakaSystem/LastOrder/logger"
 	"github.com/coreos/etcd/clientv3"
 	"github.com/coreos/etcd/mvcc/mvccpb"
@@ -15,7 +15,7 @@ import (
 
 type ClientDis struct {
 	client *clientv3.Client
-	ctx    *common.Context
+	ctx    *core.Context
 }
 
 func NewClientDis(addr []string) (*ClientDis, error) {
@@ -98,7 +98,7 @@ func (c *ClientDis) DelServiceList(key string) {
 //	return addrs
 //}
 
-func (c *ClientDis) InitServices(serviceName string) (*common.Context, error) {
+func (c *ClientDis) InitServices(serviceName string) (*core.Context, error) {
 	resp, err := c.client.Get(context.Background(), serviceName, clientv3.WithPrefix())
 	if err != nil {
 		return nil, err
@@ -112,7 +112,7 @@ func (c *ClientDis) InitServices(serviceName string) (*common.Context, error) {
 		}
 		services[service][serviceNode] = string(v.Value)
 	}
-	c.ctx = common.InitContext(services)
+	c.ctx = core.InitContext(services)
 	go c.watcher(serviceName)
 	return c.ctx, nil
 }
