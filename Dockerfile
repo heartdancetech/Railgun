@@ -6,4 +6,4 @@ LABEL MAINTAINER = "gsxhnd@gmail.com"
 WORKDIR /app
 ADD $BASE_BIN_NAME /app
 
-EXPOSE 8080
+EXPOSE 8000
