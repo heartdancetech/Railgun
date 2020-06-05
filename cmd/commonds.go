@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"github.com/MisakaSystem/LastOrder/common"
 	"github.com/MisakaSystem/LastOrder/core"
 	"github.com/MisakaSystem/LastOrder/logger"
 	"github.com/spf13/cobra"
@@ -10,7 +9,7 @@ import (
 
 var (
 	rootCmd = &cobra.Command{
-		Use:   common.AppName,
+		Use:   "LastOrder",
 		Short: "",
 		Long:  "",
 		Run: func(cmd *cobra.Command, args []string) {

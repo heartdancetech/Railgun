@@ -2,18 +2,18 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/MisakaSystem/LastOrder/common"
 	"github.com/spf13/cobra"
+	"runtime"
 )
 
 var (
-	gitTag       = common.GetVersion().GitTag
-	gitCommit    = common.GetVersion().GitCommit
-	gitTreeState = common.GetVersion().GitTreeState
-	buildDate    = common.GetVersion().BuildDate
-	goVersion    = common.GetVersion().GoVersion
-	compiler     = common.GetVersion().Compiler
-	platform     = common.GetVersion().Platform
+	gitTag       string
+	gitCommit    string
+	gitTreeState string
+	buildDate    string
+	goVersion    = runtime.Version()
+	compiler     = runtime.Compiler
+	platform     = fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH)
 )
 
 var versionCmd = &cobra.Command{
