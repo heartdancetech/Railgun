@@ -3,9 +3,10 @@ module github.com/MisakaSystem/LastOrder
 go 1.14
 
 require (
-	github.com/coreos/etcd v3.3.18+incompatible
+	github.com/coreos/etcd v3.3.22+incompatible
 	github.com/fsnotify/fsnotify v1.4.9
 	github.com/google/uuid v1.1.1 // indirect
+	github.com/gsxhnd/owl v0.1.5
 	github.com/lestrrat-go/file-rotatelogs v2.2.0+incompatible
 	github.com/lestrrat-go/strftime v1.0.1 // indirect
 	github.com/mitchellh/mapstructure v1.3.1 // indirect

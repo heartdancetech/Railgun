@@ -1,10 +1,7 @@
 package core
 
 import (
-	"github.com/MisakaSystem/LastOrder/discovery"
-	"github.com/MisakaSystem/LastOrder/logger"
 	"github.com/spf13/viper"
-	"go.uber.org/zap"
 	"net"
 	"net/http"
 	"sync"
@@ -50,40 +47,36 @@ func New() *ProxyEngine {
 
 func (e *ProxyEngine) Run() error {
 	//初始化配置
-	etcdList := viper.GetStringSlice("etcd-url")
 	SetMode(viper.GetString("run-mode"))
-
-	cli, err := discovery.NewClientDis(etcdList)
-	if err != nil {
-		logger.Panic("", zap.Error(err))
-		return err
-	}
-
-	ctx, err := cli.InitServices("/service")
-	if err != nil {
-		logger.Panic("", zap.Error(err))
-		return err
-	}
-
-	//创建反向代理
-	proxy := NewReverseProxy(ctx)
-
-	errChannel := make(chan error)
-	//go func() {
-	//	c := make(chan os.Signal)
-	//	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
-	//	errChannel <- fmt.Errorf("%s", <-c)
-	//}()
-
-	//开始监听
-	var http01 = http.NewServeMux()
-	http01.Handle("/", proxy)
-	errChannel <- http.ListenAndServe(":9091", proxy)
-
-	<-errChannel
 	return nil
-}
 
-//func (e *ProxyEngine) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
-//
-//}
+	//cli, err := discovery.NewClientDis(viper.GetStringSlice("etcds"))
+	//if err != nil {
+	//	logger.Panic("", zap.Error(err))
+	//	return err
+	//}
+	//
+	//ctx, err := cli.InitServices("/service")
+	//if err != nil {
+	//	logger.Panic("", zap.Error(err))
+	//	return err
+	//}
+	//
+	////创建反向代理
+	//proxy := NewReverseProxy(ctx)
+	//
+	//errChannel := make(chan error)
+	////go func() {
+	////	c := make(chan os.Signal)
+	////	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
+	////	errChannel <- fmt.Errorf("%s", <-c)
+	////}()
+	//
+	////开始监听
+	//var http01 = http.NewServeMux()
+	//http01.Handle("/", proxy)
+	//errChannel <- http.ListenAndServe(":9091", proxy)
+	//
+	//<-errChannel
+	//return nil
+}

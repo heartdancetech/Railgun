@@ -5,7 +5,8 @@ import (
 )
 
 var (
-	rootCmd = &cobra.Command{
+	etcdUrlArry []string
+	rootCmd     = &cobra.Command{
 		Use:   "LastOrder",
 		Short: "",
 		Long:  "",
@@ -14,4 +15,11 @@ var (
 
 func init() {
 	rootCmd.AddCommand(runCmd, versionCmd)
+}
+
+func Execute() {
+	err := rootCmd.Execute()
+	if err != nil {
+		panic(err)
+	}
 }
