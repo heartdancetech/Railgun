@@ -12,6 +12,10 @@ import (
 	"time"
 )
 
+var (
+	etcdUrlArry []string
+	confKey     string
+)
 var runCmd = &cobra.Command{
 	Use:     "run",
 	Short:   "run",
@@ -28,6 +32,7 @@ var runCmd = &cobra.Command{
 
 func init() {
 	runCmd.PersistentFlags().StringArrayVar(&etcdUrlArry, "etcds", []string{"127.0.0.1:2379"}, "")
+	runCmd.PersistentFlags().StringVar(&confKey, "conf_key", "", "")
 }
 
 func getConfig() {
@@ -37,7 +42,7 @@ func getConfig() {
 		DialTimeout:      5 * time.Second,
 	}
 	e, _ := backend.NewEtcdConn(conf)
-	confStr, _ := e.Get("/conf/test.yaml")
+	confStr, _ := e.Get(confKey)
 	viper.SetConfigType("yaml")
 	_ = viper.ReadConfig(bytes.NewBuffer([]byte(confStr)))
 }

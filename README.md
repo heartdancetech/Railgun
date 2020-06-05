@@ -19,7 +19,11 @@ A Gateway written by [Golang]
 2. Service Discovery
 3. Web UI
 
-## Commands(CLI)
+## Install
+## Run Server
+```bash
+last_order run --etcds="127.0.0.1:2379" --conf_key="/conf/test.yaml"
+```
 
 ## JetBrains OS licenses
 
