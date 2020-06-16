@@ -2,47 +2,55 @@ package cmd
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/MisakaSystem/LastOrder/core"
 	"github.com/MisakaSystem/LastOrder/logger"
-	"github.com/coreos/etcd/clientv3"
-	"github.com/gsxhnd/owl/backend"
+	"github.com/gsxhnd/owl"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"time"
 )
 
-var (
-	etcdUrlArry []string
-	confKey     string
-)
+func init() {
+	runCmd.PersistentFlags().StringArrayVarP(&etcdUrlArry, "etcds", "e", []string{"127.0.0.1:2379"}, "")
+}
+
+var etcdUrlArry []string
 var runCmd = &cobra.Command{
 	Use:     "run",
 	Short:   "run",
 	Long:    "run",
 	Example: "run",
+	Args: func(cmd *cobra.Command, args []string) error {
+		if len(args) != 1 || len(args) > 1 {
+			return errors.New("need key or too manay args")
+		}
+		return nil
+	},
+	PreRun: func(cmd *cobra.Command, args []string) {
+		owl.SetAddr(etcdUrlArry)
+		confKey := args[0]
+		confStr, err := owl.GetByKey(confKey)
+		if err != nil {
+		}
+		fmt.Print("config: ", confStr)
+		viper.SetConfigType("yaml")
+		err = viper.ReadConfig(bytes.NewBuffer([]byte(confStr)))
+		if err != nil {
+			panic(err)
+		}
+		c := make(chan string)
+		go owl.Watcher(confKey, c)
+		go func() {
+			for i := range c {
+				_ = viper.ReadConfig(bytes.NewBuffer([]byte(i)))
+			}
+		}()
+	},
 	Run: func(cmd *cobra.Command, args []string) {
-		getConfig()
-		fmt.Printf("server name: %v", viper.GetString("name"))
+		fmt.Println("server name: ", viper.GetString("name"))
 		logger.Init("debug", viper.GetString("name"))
 		g := core.New()
 		_ = g.Run()
 	},
-}
-
-func init() {
-	runCmd.PersistentFlags().StringArrayVar(&etcdUrlArry, "etcds", []string{"127.0.0.1:2379"}, "")
-	runCmd.PersistentFlags().StringVar(&confKey, "conf_key", "", "")
-}
-
-func getConfig() {
-	conf := clientv3.Config{
-		Endpoints:        etcdUrlArry,
-		AutoSyncInterval: 0,
-		DialTimeout:      5 * time.Second,
-	}
-	e, _ := backend.NewEtcdConn(conf)
-	confStr, _ := e.Get(confKey)
-	viper.SetConfigType("yaml")
-	_ = viper.ReadConfig(bytes.NewBuffer([]byte(confStr)))
 }
