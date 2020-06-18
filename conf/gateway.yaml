@@ -3,5 +3,5 @@ run_mode: debug
 addr: :8000
 
 proxy:
-  - test:
-      addr: 127.0.0.1:8001
+  test01: 127.0.0.1:8001
+  test02: 127.0.0.1:8002

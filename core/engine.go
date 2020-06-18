@@ -2,81 +2,61 @@ package core
 
 import (
 	"github.com/spf13/viper"
-	"net"
 	"net/http"
+	"strings"
 	"sync"
-	"time"
 )
 
 type ProxyEngine struct {
-	// Director must be a function which modifies
-	// the request into a new request to be sent
-	// using Transport. Its response is then copied
-	// back to the original client unmodified.
-	Director func(*http.Request)
-
-	// The transport used to perform proxy requests.
-	Transport http.RoundTripper
-
-	// FlushInterval specifies the flush interval
-	// to flush to the client while copying the
-	// response body.
-	// If zero, no periodic flushing is done.
-	FlushInterval time.Duration
-
-	// dialer is used when values from the
-	// defaultDialer need to be overridden per Proxy
-	dialer *net.Dialer
-
-	srvResolver srvResolver
-
 	pool sync.Pool
 }
 
 func New() *ProxyEngine {
 	engine := &ProxyEngine{}
-	//engine.pool.New = func() interface{} {
-	//	return engine.allocateContext()
-	//}
+	engine.pool.New = func() interface{} {
+		return engine.allocateContext()
+	}
 	return engine
 }
 
-//func (e *ProxyEngine) allocateContext() *Context {
-//	return &Context{engine: e}
-//}
+func (e *ProxyEngine) allocateContext() *Context {
+	return &Context{engine: e}
+}
 
-func (e *ProxyEngine) Run() error {
-	//初始化配置
-	SetMode(viper.GetString("run-mode"))
-	return nil
+func (e *ProxyEngine) Run(addr string) (err error) {
+	err = http.ListenAndServe(addr, e)
+	return
+}
 
-	//cli, err := discovery.NewClientDis(viper.GetStringSlice("etcds"))
-	//if err != nil {
-	//	logger.Panic("", zap.Error(err))
-	//	return err
-	//}
-	//
-	//ctx, err := cli.InitServices("/service")
-	//if err != nil {
-	//	logger.Panic("", zap.Error(err))
-	//	return err
-	//}
-	//
-	////创建反向代理
-	//proxy := NewReverseProxy(ctx)
-	//
-	//errChannel := make(chan error)
-	////go func() {
-	////	c := make(chan os.Signal)
-	////	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGKILL)
-	////	errChannel <- fmt.Errorf("%s", <-c)
-	////}()
-	//
-	////开始监听
-	//var http01 = http.NewServeMux()
-	//http01.Handle("/", proxy)
-	//errChannel <- http.ListenAndServe(":9091", proxy)
-	//
-	//<-errChannel
-	//return nil
+func (e *ProxyEngine) RunTLS(addr, certFile, keyFile string) (err error) {
+	err = http.ListenAndServeTLS(addr, certFile, keyFile, e)
+	return
+}
+
+func (e *ProxyEngine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	c := e.pool.Get().(*Context)
+	c.Writer = w
+	c.Req = req
+
+	e.handleHTTPRequest(c)
+
+	e.pool.Put(c)
+}
+
+func (e *ProxyEngine) handleHTTPRequest(c *Context) {
+	//查询原始请求路径，如：/arithmetic/calculate/10/5
+	reqPath := c.Req.URL.Path
+	if reqPath == "" {
+		return
+	}
+	//按照分隔符'/'对路径进行分解，获取服务名称serviceName
+	pathArray := strings.Split(reqPath, "/")
+	serviceName := pathArray[1]
+	destPathMap := viper.GetStringMapString("proxy")
+	destPath := strings.Join(pathArray[2:], "/")
+	c.Req.URL.Scheme = "http"
+	c.Req.URL.Host = destPathMap[serviceName]
+	c.Req.URL.Path = "/" + destPath
+
+	ReverseProxy().ServeHTTP(c.Writer, c.Req)
 }

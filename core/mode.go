@@ -10,13 +10,8 @@ const (
 	// ReleaseMode indicates  mode is release.
 	ReleaseMode = "release"
 )
-const (
-	debugCode = iota
-	releaseCode
-)
 
-var gatewayMode = debugCode
-var modeName = DebugMode
+var gatewayMode = DebugMode
 
 func init() {
 	mode := os.Getenv(EnvMode)
@@ -26,18 +21,14 @@ func init() {
 func SetMode(value string) {
 	switch value {
 	case DebugMode, "":
-		gatewayMode = debugCode
+		gatewayMode = DebugMode
 	case ReleaseMode:
-		gatewayMode = releaseCode
+		gatewayMode = ReleaseMode
 	default:
-		panic("mode unknown: " + value)
+		gatewayMode = DebugMode
 	}
-	if value == "" {
-		value = DebugMode
-	}
-	modeName = value
 }
 
 func Mode() string {
-	return modeName
+	return gatewayMode
 }

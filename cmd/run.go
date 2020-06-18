@@ -33,7 +33,7 @@ var runCmd = &cobra.Command{
 		confStr, err := owl.GetByKey(confKey)
 		if err != nil {
 		}
-		fmt.Print("config: ", confStr)
+		fmt.Println("conf:", confStr)
 		viper.SetConfigType("yaml")
 		err = viper.ReadConfig(bytes.NewBuffer([]byte(confStr)))
 		if err != nil {
@@ -47,10 +47,12 @@ var runCmd = &cobra.Command{
 			}
 		}()
 	},
+
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("server name: ", viper.GetString("name"))
-		logger.Init("debug", viper.GetString("name"))
+		logger.Init(viper.GetString("run_mode"), viper.GetString("name"))
+
+		core.SetMode(viper.GetString("run_mode"))
 		g := core.New()
-		_ = g.Run()
+		_ = g.Run(viper.GetString("addr"))
 	},
 }
