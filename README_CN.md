@@ -41,9 +41,9 @@ owl get -e "local_dev:2379" /conf/cdn.yaml
 
 ## Install LastOrder
 ```bash
-wget https://github.com/gsxhnd/owl/releases/download/v0.3.0/owl-0.3.0-linux64-amd64
-wget https://github.com/gsxhnd/owl/releases/download/v0.3.0/owl-0.3.0-linux64-amd64
-wget https://github.com/gsxhnd/owl/releases/download/v0.3.0/owl-0.3.0-linux64-amd64
+wget https://github.com/MisakaSystem/LastOrder/releases/download/v0.3.0/last_order-0.3.0-linux64-amd64
+wget https://github.com/MisakaSystem/LastOrder/releases/download/v0.3.0/last_order-0.3.0-windows-amd64.exe
+wget https://github.com/MisakaSystem/LastOrder/releases/download/v0.3.0/last_order-0.3.0-darwin-amd64
 ```
 ## Run Server
 ```bash
