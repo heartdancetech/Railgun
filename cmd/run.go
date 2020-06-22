@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"github.com/MisakaSystem/LastOrder/api"
 	"github.com/MisakaSystem/LastOrder/core"
 	"github.com/MisakaSystem/LastOrder/logger"
 	"github.com/gsxhnd/owl"
@@ -13,9 +14,11 @@ import (
 
 func init() {
 	runCmd.PersistentFlags().StringArrayVarP(&etcdUrlArry, "etcds", "e", []string{"127.0.0.1:2379"}, "")
+	runCmd.PersistentFlags().BoolVar(&enableManage, "enable-manage", false, "")
 }
 
 var etcdUrlArry []string
+var enableManage bool
 var runCmd = &cobra.Command{
 	Use:     "run",
 	Short:   "run",
@@ -25,6 +28,7 @@ var runCmd = &cobra.Command{
 		if len(args) != 1 || len(args) > 1 {
 			return errors.New("need key or too manay args")
 		}
+		fmt.Println(enableManage)
 		return nil
 	},
 	PreRun: func(cmd *cobra.Command, args []string) {
@@ -33,7 +37,6 @@ var runCmd = &cobra.Command{
 		confStr, err := owl.GetByKey(confKey)
 		if err != nil {
 		}
-		fmt.Println("conf:", confStr)
 		viper.SetConfigType("yaml")
 		err = viper.ReadConfig(bytes.NewBuffer([]byte(confStr)))
 		if err != nil {
@@ -50,6 +53,10 @@ var runCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		logger.Init(viper.GetString("run_mode"), viper.GetString("name"))
+
+		if enableManage {
+			go api.Run()
+		}
 
 		core.SetMode(viper.GetString("run_mode"))
 		g := core.New()
