@@ -3,7 +3,7 @@
 ![](https://img.shields.io/github/v/release/MisakaSystem/LastOrder)
 [![Go Report Card](https://goreportcard.com/badge/github.com/MisakaSystem/LastOrder)](https://goreportcard.com/report/github.com/MisakaSystem/LastOrder)
 
-English | [简体中文](./README_CN.md)
+English | [简体中文]()
 
 # LastOrder
 
