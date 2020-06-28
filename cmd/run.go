@@ -15,10 +15,14 @@ import (
 func init() {
 	runCmd.PersistentFlags().StringArrayVarP(&etcdUrlArry, "etcds", "e", []string{"127.0.0.1:2379"}, "")
 	runCmd.PersistentFlags().BoolVar(&enableManage, "enable-manage", false, "")
+	runCmd.PersistentFlags().BoolVar(&runTLS, "runTLS", false, "")
+	runCmd.PersistentFlags().StringVar(&certFile, "certFile", "", "")
+	runCmd.PersistentFlags().StringVar(&keyFile, "keyFile", "", "")
 }
 
+var certFile, keyFile string
 var etcdUrlArry []string
-var enableManage bool
+var enableManage, runTLS bool
 var runCmd = &cobra.Command{
 	Use:     "run",
 	Short:   "run",
@@ -60,6 +64,11 @@ var runCmd = &cobra.Command{
 
 		core.SetMode(viper.GetString("run_mode"))
 		g := core.New()
-		_ = g.Run(viper.GetString("addr"))
+		if runTLS {
+			_ = g.RunTLS(viper.GetString("addr"), certFile, keyFile)
+		} else {
+			_ = g.Run(viper.GetString("addr"))
+		}
+
 	},
 }
