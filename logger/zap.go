@@ -55,7 +55,7 @@ func Init(mode, key string) {
 	})
 
 	debugHook := getWriter("./log/" + key + "_debug")
-	infoHook := getWriter("./log/" + key + "_info")
+	infoHook := getWriter("./log/" + key + "_request")
 	warnHook := getWriter("./log/" + key + "_error")
 	var core zapcore.Core
 	if mode == "debug" {

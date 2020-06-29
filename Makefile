@@ -31,6 +31,7 @@ build-docker:
 
 clean:
 	@rm -rvf build/
+	@rm -rvf log/*
 	@docker image prune
 	@docker rmi --force ${APP}-${gitTag}:${gitTag}
 
