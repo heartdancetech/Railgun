@@ -1,7 +1,6 @@
 package core
 
 import (
-	"github.com/MisakaSystem/LastOrder/logger"
 	"go.uber.org/zap"
 	"net"
 	"net/http"
@@ -10,7 +9,7 @@ import (
 	"time"
 )
 
-// NewReverseProxy 创建反向代理处理方法
+// NewReverseProxy Creat Reverse Proxy
 func ReverseProxy() *httputil.ReverseProxy {
 	type reqLog struct {
 		Status    int
@@ -31,7 +30,7 @@ func ReverseProxy() *httputil.ReverseProxy {
 		log.Method = req.Method
 		log.Target = req.URL.Hostname()
 		log.Query = req.URL.RawQuery
-		log.IP = ClientIP(req)
+		log.IP = clientIP(req)
 		log.UserAgent = req.Header.Get("user-agent")
 		return
 	}
@@ -54,10 +53,14 @@ func ReverseProxy() *httputil.ReverseProxy {
 		return nil
 	}
 
-	return &httputil.ReverseProxy{Director: director, ModifyResponse: modifyResponse}
+	errHandler := func(writer http.ResponseWriter, request *http.Request, err error) {
+		logger.Error("", zap.Error(err))
+	}
+
+	return &httputil.ReverseProxy{Director: director, ModifyResponse: modifyResponse, ErrorHandler: errHandler}
 }
 
-func ClientIP(req *http.Request) string {
+func clientIP(req *http.Request) string {
 	if ip, _, err := net.SplitHostPort(strings.TrimSpace(req.RemoteAddr)); err == nil {
 		return ip
 	}

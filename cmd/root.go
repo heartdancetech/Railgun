@@ -4,6 +4,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var etcdUrlArry []string
+var enableManage bool
 var rootCmd = &cobra.Command{
 	Use:   "LastOrder",
 	Short: "",
@@ -11,7 +13,7 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(runCmd, versionCmd)
+	rootCmd.AddCommand(runCmd, runTLSCmd, versionCmd)
 }
 
 func Execute() {
