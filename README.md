@@ -1,7 +1,7 @@
-![Build](https://github.com/railgun-project/LastOrder/workflows/Build/badge.svg)
-[![](https://img.shields.io/github/license/MisakaSystem/LastOrder)](https://opensource.org/licenses/MIT)
-![](https://img.shields.io/github/v/release/MisakaSystem/LastOrder)
-[![Go Report Card](https://goreportcard.com/badge/github.com/MisakaSystem/LastOrder)](https://goreportcard.com/report/github.com/MisakaSystem/LastOrder)
+![Build](https://github.com/railgun-project/LastOrder/workflows/Build/badge.svg?branch=v1.0.0)
+[![](https://img.shields.io/github/license/railgun-project/LastOrder)](https://opensource.org/licenses/MIT)
+![](https://img.shields.io/github/v/release/railgun-project/LastOrder)
+[![Go Report Card](https://goreportcard.com/badge/github.com/railgun-project/LastOrder)](https://goreportcard.com/report/github.com/railgun-project/LastOrder)
 
 # LastOrder
 

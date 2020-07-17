@@ -3,9 +3,9 @@ package cmd
 import (
 	"bytes"
 	"errors"
-	"github.com/MisakaSystem/LastOrder/api"
-	"github.com/MisakaSystem/LastOrder/core"
 	"github.com/gsxhnd/owl"
+	"github.com/railgun-project/LastOrder/api"
+	"github.com/railgun-project/LastOrder/core"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

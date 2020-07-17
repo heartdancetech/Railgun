@@ -1,6 +1,6 @@
 package main
 
-import "github.com/MisakaSystem/LastOrder/cmd"
+import "github.com/railgun-project/LastOrder/cmd"
 
 func main() {
 	cmd.Execute()

@@ -1,4 +1,4 @@
-module github.com/MisakaSystem/LastOrder
+module github.com/railgun-project/LastOrder
 
 go 1.14
 
