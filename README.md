@@ -3,57 +3,19 @@
 ![](https://img.shields.io/github/v/release/MisakaSystem/LastOrder)
 [![Go Report Card](https://goreportcard.com/badge/github.com/MisakaSystem/LastOrder)](https://goreportcard.com/report/github.com/MisakaSystem/LastOrder)
 
-English | [简体中文]()
-
 # LastOrder
 
 A Gateway written by [Golang](https://github.com/golang/go)
 
-Use etcd store serve config and routing config
+Use etcd store serve config and routing
 
-1. [Website]()
-2. [Release]()
-3. [Roadmap](https://github.com/MisakaSystem/LastOrder-roadmap)
+1. [Website](https://railgun-project.github.io/)
+2. [中文网站](https://cn.railgun.gsxhnd.xyz)
+
 
 ## Feature
 
 1. Routing
-
-
-## Set up config
-### 1.1 Install owl
-use owl store config into the ectd
-- use go install owl
-```shell script
-go install github.com/gsxhnd/owl
-```
-- download binary
-```shell script
-wget https://github.com/gsxhnd/owl/releases/download/v0.3.0/owl-0.3.0-linux64-amd64
-mv owl-0.3.0-linux64-amd64 /usr/local/bin/owl
-chmod +x /usr/local/bin/owl
-```
-
-### 1.2 upload/update config into ectd
-```shell script
-owl put -e "local_dev:2379" /conf/gateway.yaml ./conf/gateway.yaml
-```
-
-### 1.3 check current config in ectd
-```shell script
-owl get -e "local_dev:2379" /conf/cdn.yaml
-```
-
-## Install LastOrder
-```bash
-wget https://github.com/MisakaSystem/LastOrder/releases/download/v0.3.0/last_order-0.3.0-linux64-amd64
-wget https://github.com/MisakaSystem/LastOrder/releases/download/v0.3.0/last_order-0.3.0-windows-amd64.exe
-wget https://github.com/MisakaSystem/LastOrder/releases/download/v0.3.0/last_order-0.3.0-darwin-amd64
-```
-## Run Server
-```bash
-last_order run --etcds="127.0.0.1:2379" /conf/gateway.yaml
-```
 
 ## JetBrains OS licenses
 
