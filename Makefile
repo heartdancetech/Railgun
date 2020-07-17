@@ -17,23 +17,23 @@ ldflags= "-X ${versionDir}.gitTag=${gitTag} \
 release:
 	# Build for linux
 	go clean
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-${gitTag}-linux64-amd64 ./bin/
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-linux64-amd64 ./bin/
 	# Build for win
 	go clean
-	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-${gitTag}-windows-amd64.exe ./bin/
+	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-windows-amd64.exe ./bin/
 	# Build for mac
 	go clean
-	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-${gitTag}-darwin-amd64 ./bin/
+	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-darwin-amd64 ./bin/
 
 build-docker:
-	docker build --build-arg BASE_BIN_NAME=${APP}-${gitTag}-linux64-amd64 -t ${APP}-${gitTag}:${gitTag} .
+	docker build --build-arg BASE_BIN_NAME=${APP}-linux64-amd64 -t ${APP}:${gitTag} .
 
 
 clean:
 	@rm -rvf build/
 	@rm -rvf log/*
 	@docker image prune
-	@docker rmi --force ${APP}-${gitTag}:${gitTag}
+	@docker rmi --force ${APP}:${gitTag}
 
 gotool:
 	gofmt -w .
