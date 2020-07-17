@@ -19,7 +19,7 @@ var (
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: `Show version`,
-	Long:  `Show version of LastOrder`,
+	Long:  `Show version of railgun`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("version: ", gitTag)
 		fmt.Println("commit: ", gitCommit)

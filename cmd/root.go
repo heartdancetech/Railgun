@@ -7,7 +7,7 @@ import (
 var etcdUrlArry []string
 var enableManage bool
 var rootCmd = &cobra.Command{
-	Use:   "LastOrder",
+	Use:   "railgun",
 	Short: "",
 	Long:  "",
 }

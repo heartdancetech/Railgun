@@ -1,4 +1,4 @@
-module github.com/railgun-project/LastOrder
+module github.com/railgun-project/railgun
 
 go 1.14
 

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"errors"
 	"github.com/gsxhnd/owl"
-	"github.com/railgun-project/LastOrder/api"
-	"github.com/railgun-project/LastOrder/core"
+	"github.com/railgun-project/railgun/api"
+	"github.com/railgun-project/railgun/core"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

@@ -1,4 +1,4 @@
-# LastOrder Changelog
+# railgun Changelog
 
 ## v0.3.0
 - [feat]: change a way to get conf from etcd
