@@ -1,4 +1,4 @@
-[![](https://api.travis-ci.com/MisakaSystem/LastOrder.svg?branch=master)](https://travis-ci.com/MisakaSystem/LastOrder)
+![Build](https://github.com/railgun-project/LastOrder/workflows/Build/badge.svg)
 [![](https://img.shields.io/github/license/MisakaSystem/LastOrder)](https://opensource.org/licenses/MIT)
 ![](https://img.shields.io/github/v/release/MisakaSystem/LastOrder)
 [![Go Report Card](https://goreportcard.com/badge/github.com/MisakaSystem/LastOrder)](https://goreportcard.com/report/github.com/MisakaSystem/LastOrder)
@@ -26,3 +26,4 @@ Use etcd store serve config and routing
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license)
+
