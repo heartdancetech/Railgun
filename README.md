@@ -1,21 +1,15 @@
 ![Build](https://github.com/railgun-project/LastOrder/workflows/Build/badge.svg?branch=v1.0.0)
-[![](https://img.shields.io/github/license/railgun-project/LastOrder)](https://opensource.org/licenses/MIT)
+![](https://img.shields.io/github/license/railgun-project/LastOrder)
 ![](https://img.shields.io/github/v/release/railgun-project/LastOrder)
 [![Go Report Card](https://goreportcard.com/badge/github.com/railgun-project/LastOrder)](https://goreportcard.com/report/github.com/railgun-project/LastOrder)
 
 # LastOrder
 
-A Gateway written by [Golang](https://github.com/golang/go)
-
-Use etcd store serve config and routing
+A API Gateway written by [Golang](https://github.com/golang/go)
 
 1. [Website](https://railgun-project.github.io/)
 2. [中文网站](https://cn.railgun.gsxhnd.xyz)
 
-
-## Feature
-
-1. Routing
 
 ## JetBrains OS licenses
 
