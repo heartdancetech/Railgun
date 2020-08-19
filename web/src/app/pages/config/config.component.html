@@ -1,0 +1,15 @@
+<div class="config">
+  <div class="tree">
+    <nz-tree
+      [nzData]="nodes"
+      nzDraggable
+      nzBlockNode
+      (nzOnDrop)="nzEvent($event)"
+      (nzClick)="nzEvent($event)"
+    >
+    </nz-tree>
+  </div>
+  <div class="code_mirror">
+    <textarea id="code" name="code">{{ code }}</textarea>
+  </div>
+</div>

@@ -1,11 +1,13 @@
 package api
 
 import (
+	"github.com/railgun-project/railgun/assets"
 	"net/http"
 	"time"
 )
 
 func Run() {
+	_ = assets.Load("./assets/")
 	srv := &http.Server{
 		Handler: routes(),
 		Addr:    ":8001",

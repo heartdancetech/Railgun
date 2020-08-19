@@ -1,6 +1,9 @@
 package main
 
-import "github.com/railgun-project/railgun/cmd"
+import (
+	_ "github.com/railgun-project/railgun/assets/statik"
+	"github.com/railgun-project/railgun/cmd"
+)
 
 func main() {
 	cmd.Execute()

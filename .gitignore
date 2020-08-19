@@ -87,3 +87,4 @@ go.sum
 .DS_Store
 log
 build
+output
