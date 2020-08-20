@@ -17,7 +17,6 @@ export class ConfigComponent implements OnInit {
     let url = "/api/core/v1";
     this.http.get(url).subscribe(
       (data: any) => {
-        //  data:返回的数据
         console.log(data);
       },
       (error: HttpErrorResponse) => {
@@ -25,6 +24,7 @@ export class ConfigComponent implements OnInit {
       }
     );
   }
+
   ngAfterViewInit() {
     this.editor = CodeMirror.fromTextArea(document.getElementById("code"), {
       lineNumbers: true,
@@ -40,7 +40,6 @@ export class ConfigComponent implements OnInit {
       styleActiveLine: true,
     });
     this.editor.setSize("900px", "100%");
-    this.editor.setValue = "123";
   }
   nodes = [
     {
@@ -104,9 +103,6 @@ export class ConfigComponent implements OnInit {
     },
   ];
   nzEvent(event: NzFormatEmitEvent): void {
-    console.log(event);
-    console.log(event.keys);
-    this.code = event.keys[0];
     this.editor.doc.setValue(event.keys[0]);
     console.log(this.editor);
   }
