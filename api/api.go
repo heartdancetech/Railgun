@@ -2,6 +2,7 @@ package api
 
 import (
 	"github.com/railgun-project/railgun/assets"
+	_ "github.com/railgun-project/railgun/assets/statik"
 	"net/http"
 	"time"
 )
