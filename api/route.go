@@ -9,8 +9,7 @@ import (
 
 func routes() *mux.Router {
 	r := mux.NewRouter()
-	r.PathPrefix("/api").Path("/get_proxy").HandlerFunc(handle).Methods("GET")
-	r.PathPrefix("/api").Path("/put_proxy").HandlerFunc(handle).Methods("PUT")
+	r.PathPrefix("/api").Path("/conf/get_keys").HandlerFunc(GetKeysHandle).Methods("PUT")
 
 	r.Handle("/favicon.ico", http.FileServer(assets.FileSystem)).Methods("GET")
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(assets.FileSystem))).Methods("GET")

@@ -6,10 +6,8 @@ import (
 	"net/http"
 )
 
-func handle(w http.ResponseWriter, req *http.Request) {
+func GetKeysHandle(w http.ResponseWriter, req *http.Request) {
+	keys, _ := owl.GetKeys("/conf")
 	w.WriteHeader(http.StatusOK)
-	conf, _ := owl.GetByKey("/conf/gateway.yaml")
-	fmt.Println(conf)
-
-	_, _ = fmt.Fprint(w, conf)
+	_, _ = fmt.Fprint(w, keys)
 }
