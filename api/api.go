@@ -1,15 +1,20 @@
 package api
 
 import (
+	"github.com/railgun-project/railgun/assets"
+	_ "github.com/railgun-project/railgun/assets/statik"
 	"net/http"
 	"time"
 )
 
+func init() {
+	_ = assets.Load("")
+}
+
 func Run() {
 	srv := &http.Server{
-		Handler: routes(),
-		Addr:    ":8001",
-		// Good practice: enforce timeouts for servers you create!
+		Handler:      routes(),
+		Addr:         ":8001",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
@@ -18,9 +23,8 @@ func Run() {
 
 func RunTLS(certFile, keyFile string) {
 	srv := &http.Server{
-		Handler: routes(),
-		Addr:    ":8001",
-		// Good practice: enforce timeouts for servers you create!
+		Handler:      routes(),
+		Addr:         ":8001",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}

@@ -20,8 +20,12 @@ jobs:
       - name: Get dependencies
         run:
           go get -v -t -d ./...
-      - name: Build
-        run: make
+      - name: Get tool
+        run: go get github.com/rakyll/statik
+      - name: Build Web
+        run: cd web && yarn install && npm run build:prod
+      - name: Build Go
+        run: make file && make
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1

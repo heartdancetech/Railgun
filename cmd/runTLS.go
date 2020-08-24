@@ -48,10 +48,9 @@ var runTLSCmd = &cobra.Command{
 			}
 		}()
 	},
-
 	Run: func(cmd *cobra.Command, args []string) {
 		if enableManage {
-			go api.Run()
+			go api.RunTLS(certFile, keyFile)
 		}
 
 		core.SetMode(viper.GetString("run_mode"))

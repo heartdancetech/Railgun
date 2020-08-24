@@ -25,13 +25,17 @@ release:
 	go clean
 	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-darwin-amd64 ./bin/
 
-build-docker:
-	docker build --build-arg BASE_BIN_NAME=${APP}-linux64-amd64 -t ${APP}:${gitTag} .
-
+file:
+	mkdir ./assets/static/
+	cp -rf ./web/dist/* ./assets/static/
+	go generate ./assets/...
 
 clean:
 	@rm -rvf build/
 	@rm -rvf log/*
+	@rm -rvf assets/static
+	@rm -rvf assets/statik/*
+	@echo "package statik" > ./assets/statik/statik.go
 	@docker image prune
 	@docker rmi --force ${APP}:${gitTag}
 
@@ -43,8 +47,9 @@ gotool:
 
 help:
 	@echo "make - compile the source code to binary"
+	@echo "make file - compile web"
 	@echo "make release - build gateway binary"
 	@echo "make clean - remove binary file and vim swp files"
 	@echo "make gotool - run go tool 'fmt' and 'vet'"
 
-.PHONY: release clean go-tool help
+.PHONY: release file clean go-tool help

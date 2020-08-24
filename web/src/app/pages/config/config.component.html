@@ -1,0 +1,27 @@
+<div class="config">
+  <div class="tree">
+    <nz-tree
+      [nzData]="nodes"
+      nzBlockNode
+      nzAsyncData
+      (nzClick)="nzEvent($event)"
+      (nzExpandChange)="nzEvent($event)"
+    >
+    </nz-tree>
+  </div>
+  <div class="code_mirror">
+    <div class="header">
+      <span>{{ key }}</span>
+      <button
+        nz-button
+        nzType="primary"
+        nzSize="small"
+        [nzLoading]="isLoadingSave"
+        (click)="onClickSave()"
+      >
+        Save
+      </button>
+    </div>
+    <textarea id="code" name="code"></textarea>
+  </div>
+</div>
