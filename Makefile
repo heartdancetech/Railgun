@@ -27,6 +27,7 @@ release:
 
 file:
 	mkdir ./assets/static/
+	mkdir ./assets/statik/
 	cp -rf ./web/dist/* ./assets/static/
 	go generate ./assets/...
 
@@ -34,8 +35,7 @@ clean:
 	@rm -rvf build/
 	@rm -rvf log/*
 	@rm -rvf assets/static
-	@rm -rvf assets/statik/*
-	@echo "package statik" > ./assets/statik/statik.go
+	@rm -rvf assets/statik
 	@docker image prune
 	@docker rmi --force ${APP}:${gitTag}
 
