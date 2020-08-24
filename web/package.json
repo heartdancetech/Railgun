@@ -2,7 +2,6 @@
   "name": "railgun-webui",
   "version": "2.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve --proxy-config  proxy.conf.json",
     "build": "ng build",
     "build:prod": "ng build --prod",

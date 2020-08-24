@@ -26,7 +26,6 @@ release:
 	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-darwin-amd64 ./bin/
 
 file:
-	rm -rf ./assets/static/*
 	rm -rf ./assets/static/.gitkeep
 	rm -rf ./assets/statik/.gitkeep
 	cp -rf ./web/dist/* ./assets/static/

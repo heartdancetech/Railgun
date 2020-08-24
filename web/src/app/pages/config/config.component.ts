@@ -13,17 +13,7 @@ export class ConfigComponent implements OnInit {
   editor: any;
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    let url = "/api/core/v1";
-    this.http.get(url).subscribe(
-      (data: any) => {
-        console.log(data);
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error.status);
-      }
-    );
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.editor = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -41,70 +31,94 @@ export class ConfigComponent implements OnInit {
     });
     this.editor.setSize("900px", "100%");
   }
+  key = "";
+  title = "title";
+  isLoadingSave = false;
   nodes = [
     {
-      title: "0-0",
-      key: "00",
-      expanded: true,
-      children: [
-        {
-          title: "0-0-0",
-          key: "000",
-          expanded: true,
-          children: [
-            { title: "0-0-0-0", key: "0000", isLeaf: true },
-            { title: "0-0-0-1", key: "0001", isLeaf: true },
-            { title: "0-0-0-2", key: "0002", isLeaf: true },
-          ],
-        },
-        {
-          title: "0-0-1",
-          key: "001",
-          children: [
-            { title: "0-0-1-0", key: "0010", isLeaf: true },
-            { title: "0-0-1-1", key: "0011", isLeaf: true },
-            { title: "0-0-1-2", key: "0012", isLeaf: true },
-          ],
-        },
-        {
-          title: "0-0-2",
-          key: "002",
-        },
-      ],
-    },
-    {
-      title: "0-1",
-      key: "01",
-      children: [
-        {
-          title: "0-1-0",
-          key: "010",
-          children: [
-            { title: "0-1-0-0", key: "0100", isLeaf: true },
-            { title: "0-1-0-1", key: "0101", isLeaf: true },
-            { title: "0-1-0-2", key: "0102", isLeaf: true },
-          ],
-        },
-        {
-          title: "0-1-1",
-          key: "011",
-          children: [
-            { title: "0-1-1-0", key: "0110", isLeaf: true },
-            { title: "0-1-1-1", key: "0111", isLeaf: true },
-            { title: "0-1-1-2", key: "0112", isLeaf: true },
-          ],
-        },
-      ],
-    },
-    {
-      title: "0-2",
-      key: "02",
-      isLeaf: true,
+      title: "/conf/",
+      key: "/conf/",
+      selected: false,
+      selectable: false,
+      disabled: true,
+      expanded: false,
     },
   ];
   nzEvent(event: NzFormatEmitEvent): void {
-    this.editor.doc.setValue(event.keys[0]);
-    console.log(this.editor);
+    if (event.eventName === "expand") {
+      if (event.node.isExpanded) {
+        event.node.clearChildren();
+        this.key = "";
+        this.title = "title";
+      }
+      this.getNode().then((node) => {
+        event.node.addChildren(node);
+      });
+    }
+    if (event.eventName === "click") {
+      this.getNodeValue(event.keys[0])
+        .then((data) => {
+          this.title = event.keys[0];
+          this.key = event.keys[0];
+          this.editor.doc.setValue(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
-  code = "123";
+
+  getNode(): Promise<any> {
+    let url = "/api/conf/get_keys";
+    return new Promise((resolve, reject) => {
+      this.http.get(url).subscribe(
+        (data: any) => {
+          let node = [];
+          data["data"].forEach((v: string, i: number) => {
+            let vs = v.split("/conf/");
+            node[i] = { title: vs[1], key: v, isLeaf: true };
+          });
+
+          resolve(node);
+        },
+        (error: HttpErrorResponse) => {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  getNodeValue(key: string): Promise<string> {
+    let url = `/api/conf/get_value?key=${key}`;
+    return new Promise((resolve, reject) => {
+      this.http.get(url).subscribe(
+        (data: any) => {
+          resolve(data["data"]);
+        },
+        (error: HttpErrorResponse) => {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  onClickSave() {
+    console.log(this.editor.doc.getValue());
+    console.log(this.key);
+    this.isLoadingSave = true;
+    let url = "/api/conf/save_value";
+    const body = {
+      key: this.key,
+      value: this.editor.doc.getValue(),
+    };
+    this.http.put(url, body).subscribe(
+      () => {},
+      (err) => {
+        console.log(err);
+      },
+      () => {
+        this.isLoadingSave = false;
+      }
+    );
+  }
 }
