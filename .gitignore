@@ -88,3 +88,4 @@ go.sum
 log
 build
 output
+assets/static

@@ -26,15 +26,14 @@ release:
 	CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -v -ldflags ${ldflags} -o ${BuildDIR}/${APP}-darwin-amd64 ./bin/
 
 file:
-	rm -rf ./assets/static/.gitkeep
+	mkdir ./assets/static/
 	cp -rf ./web/dist/* ./assets/static/
 	go generate ./assets/...
 
 clean:
 	@rm -rvf build/
 	@rm -rvf log/*
-	@rm -rvf assets/static/*
-	@touch ./assets/static/.gitkeep
+	@rm -rvf assets/static
 	@rm -rvf assets/statik/*
 	@echo "package statik" > ./assets/statik/statik.go
 	@docker image prune
