@@ -7,12 +7,14 @@ import (
 	"time"
 )
 
+func init() {
+	_ = assets.Load("")
+}
+
 func Run() {
-	_ = assets.Load("./assets/")
 	srv := &http.Server{
-		Handler: routes(),
-		Addr:    ":8001",
-		// Good practice: enforce timeouts for servers you create!
+		Handler:      routes(),
+		Addr:         ":8001",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
@@ -21,9 +23,8 @@ func Run() {
 
 func RunTLS(certFile, keyFile string) {
 	srv := &http.Server{
-		Handler: routes(),
-		Addr:    ":8001",
-		// Good practice: enforce timeouts for servers you create!
+		Handler:      routes(),
+		Addr:         ":8001",
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}

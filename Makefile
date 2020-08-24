@@ -27,7 +27,6 @@ release:
 
 file:
 	rm -rf ./assets/static/.gitkeep
-	rm -rf ./assets/statik/.gitkeep
 	cp -rf ./web/dist/* ./assets/static/
 	go generate ./assets/...
 
@@ -37,7 +36,7 @@ clean:
 	@rm -rvf assets/static/*
 	@touch ./assets/static/.gitkeep
 	@rm -rvf assets/statik/*
-	@touch ./assets/statik/.gitkeep
+	@echo "package statik" > ./assets/statik/statik.go
 	@docker image prune
 	@docker rmi --force ${APP}:${gitTag}
 
