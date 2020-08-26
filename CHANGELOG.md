@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.2.0
+- [feat]: dashboard add auth middleware
+
 ## v1.1.0
 - [feat]: add `enable-manage` command to run dashboard ui
 - [feat]: add dashboard ui
