@@ -2,12 +2,14 @@
 
 ## v1.2.0
 - [feat]: dashboard add auth middleware
+- [refactor]: delete `cobra` cli lib
+- [refactor]: change webui flage name, use `dashboard` instead of `enable-manage`
 
 ## v1.1.0
 - [feat]: add `enable-manage` command to run dashboard ui
 - [feat]: add dashboard ui
 - [feat]: add conf edit in dashboard ui
-- [refactor]: change Makefile
+- [chore]: change Makefile
 
 ## v1.0.0
 - [chore]: change project name
