@@ -27,6 +27,7 @@ release:
 
 file:
 	mkdir ./assets/static/
+	mkdir ./assets/statik/
 	cp -rf ./web/dist/* ./assets/static/
 	go generate ./assets/...
 
@@ -34,10 +35,7 @@ clean:
 	@rm -rvf build/
 	@rm -rvf log/*
 	@rm -rvf assets/static
-	@rm -rvf assets/statik/*
-	@echo "package statik" > ./assets/statik/statik.go
-	@docker image prune
-	@docker rmi --force ${APP}:${gitTag}
+	@rm -rvf assets/statik
 
 gotool:
 	gofmt -w .
@@ -52,4 +50,4 @@ help:
 	@echo "make clean - remove binary file and vim swp files"
 	@echo "make gotool - run go tool 'fmt' and 'vet'"
 
-.PHONY: release file clean go-tool help
+.PHONY: release file clean gotool help

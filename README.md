@@ -1,4 +1,4 @@
-![Build](https://github.com/railgun-project/railgun/workflows/Build/badge.svg?branch=v1.1.0)
+![Build](https://github.com/railgun-project/railgun/workflows/Build/badge.svg?branch=v1.2.0)
 ![](https://img.shields.io/github/license/railgun-project/railgun)
 ![](https://img.shields.io/github/v/release/railgun-project/railgun)
 [![Go Report Card](https://goreportcard.com/badge/github.com/railgun-project/railgun)](https://goreportcard.com/report/github.com/railgun-project/railgun)

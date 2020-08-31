@@ -2,33 +2,25 @@ package cmd
 
 import (
 	"bytes"
-	"errors"
 	"github.com/gsxhnd/owl"
 	"github.com/railgun-project/railgun/api"
 	"github.com/railgun-project/railgun/core"
-	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/urfave/cli/v2"
 )
 
-func init() {
-	runCmd.PersistentFlags().StringArrayVarP(&etcdUrlArry, "etcds", "e", []string{"127.0.0.1:2379"}, "")
-	runCmd.PersistentFlags().BoolVar(&enableManage, "enable-manage", false, "")
-}
-
-var runCmd = &cobra.Command{
-	Use:     "run",
-	Short:   "run",
-	Long:    "run",
-	Example: "run",
-	Args: func(cmd *cobra.Command, args []string) error {
-		if len(args) != 1 || len(args) > 1 {
-			return errors.New("need key or too manay args")
-		}
-		return nil
+var runCmd = &cli.Command{
+	Name:   "run",
+	Usage:  "run",
+	Before: nil,
+	After:  nil,
+	Flags: []cli.Flag{
+		&cli.StringSliceFlag{Name: "etcds", Aliases: []string{"e"}, Destination: etcdUrlArry},
+		&cli.BoolFlag{Name: "dashboard", Value: false, Destination: &enableManage},
 	},
-	PreRun: func(cmd *cobra.Command, args []string) {
-		owl.SetAddr(etcdUrlArry)
-		confKey := args[0]
+	Action: func(ctx *cli.Context) error {
+		owl.SetAddr(etcdUrlArry.Value())
+		confKey := ctx.Args().Get(0)
 		confStr, err := owl.GetByKey(confKey)
 		if err != nil {
 		}
@@ -44,9 +36,7 @@ var runCmd = &cobra.Command{
 				_ = viper.ReadConfig(bytes.NewBuffer([]byte(i)))
 			}
 		}()
-	},
 
-	Run: func(cmd *cobra.Command, args []string) {
 		if enableManage {
 			go api.Run()
 		}
@@ -54,5 +44,6 @@ var runCmd = &cobra.Command{
 		core.SetMode(viper.GetString("run_mode"))
 		g := core.New()
 		_ = g.Run(viper.GetString("addr"))
+		return nil
 	},
 }

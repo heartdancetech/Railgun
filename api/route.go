@@ -9,6 +9,7 @@ import (
 
 func routes() *mux.Router {
 	r := mux.NewRouter()
+	r.Use(AuthMdiddleware("123", "123").Middleware)
 	api := r.PathPrefix("/api").Subrouter()
 	api.Path("/conf/get_keys").HandlerFunc(GetKeysHandle).Methods("GET")
 	api.Path("/conf/get_value").HandlerFunc(GetValueHandle).Methods("GET")

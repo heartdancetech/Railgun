@@ -11,7 +11,7 @@ require (
 	github.com/lestrrat-go/file-rotatelogs v2.2.0+incompatible
 	github.com/lestrrat-go/strftime v1.0.1 // indirect
 	github.com/rakyll/statik v0.1.7
-	github.com/spf13/cobra v1.0.0
+	github.com/urfave/cli/v2 v2.2.0
 	github.com/spf13/viper v1.7.0
 	github.com/tebeka/strftime v0.1.4 // indirect
 	go.uber.org/zap v1.15.0

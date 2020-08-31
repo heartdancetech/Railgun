@@ -1,24 +1,19 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
+	"github.com/urfave/cli/v2"
 )
 
-var etcdUrlArry []string
+var etcdUrlArry = &cli.StringSlice{}
 var enableManage bool
-var rootCmd = &cobra.Command{
-	Use:   "railgun",
-	Short: "",
-	Long:  "",
-}
+var App = cli.NewApp()
 
 func init() {
-	rootCmd.AddCommand(runCmd, runTLSCmd, versionCmd)
-}
-
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		panic(err)
+	App.Usage = "railgun"
+	App.HideVersion = true
+	App.Commands = []*cli.Command{
+		runCmd,
+		runTLSCmd,
+		versionCmd,
 	}
 }
