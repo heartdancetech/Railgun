@@ -3,7 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { WelcomeComponent } from "./pages/welcome/welcome.component";
 
 const routes: Routes = [
-  { path: "", pathMatch: "full", redirectTo: "/welcome" },
+  { path: "", pathMatch: "full", redirectTo: "welcome" },
   { path: "welcome", component: WelcomeComponent },
   {
     path: "config",
@@ -13,7 +13,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { userHash: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
