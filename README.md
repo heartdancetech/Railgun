@@ -1,4 +1,4 @@
-![Build](https://github.com/railgun-project/railgun/workflows/Build/badge.svg?branch=v1.2.0)
+![Build](https://github.com/railgun-project/railgun/workflows/Build/badge.svg?branch=v1.2.2)
 ![](https://img.shields.io/github/license/railgun-project/railgun)
 ![](https://img.shields.io/github/v/release/railgun-project/railgun)
 [![Go Report Card](https://goreportcard.com/badge/github.com/railgun-project/railgun)](https://goreportcard.com/report/github.com/railgun-project/railgun)
@@ -10,7 +10,6 @@ A API Gateway written by [Golang](https://github.com/golang/go)
 1. [Website](https://railgun-project.github.io/)
 2. [中文网站](https://cn.railgun.gsxhnd.xyz)
 
-
 ## JetBrains OS licenses
 
 `railgun` had been being developed with GoLand under the **free JetBrains Open Source license(s)** granted by JetBrains s.r.o., hence I would like to express my thanks here.
@@ -20,4 +19,3 @@ A API Gateway written by [Golang](https://github.com/golang/go)
 ## License
 
 [MIT](https://tldrlegal.com/license/mit-license)
-
