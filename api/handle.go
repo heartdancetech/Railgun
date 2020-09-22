@@ -9,14 +9,14 @@ import (
 )
 
 func GetKeysHandle(w http.ResponseWriter, req *http.Request) {
-	keys, _ := owl.GetKeys("/conf/")
+	keys, _ := owl.GetRemoteKeys("/conf/")
 	SendRes(w, nil, keys)
 }
 
 func GetValueHandle(w http.ResponseWriter, req *http.Request) {
 	params, _ := url.ParseQuery(req.URL.RawQuery)
 	key := params.Get("key")
-	v, err := owl.GetByKey(key)
+	v, err := owl.GetRemote(key)
 	if err != nil {
 		SendRes(w, err, nil)
 	} else {
@@ -31,7 +31,7 @@ func SaveValueHandle(w http.ResponseWriter, req *http.Request) {
 		Value string `json:"value"`
 	}
 	_ = json.Unmarshal(body, &params)
-	err := owl.Put(params.Key, params.Value)
+	err := owl.PutRemote(params.Key, params.Value)
 	if err != nil {
 		SendRes(w, err, nil)
 	} else {

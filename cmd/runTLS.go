@@ -22,9 +22,9 @@ var runTLSCmd = &cli.Command{
 		&cli.StringFlag{Name: "keyFile", Required: true, Destination: &keyFile},
 	},
 	Action: func(ctx *cli.Context) error {
-		owl.SetAddr(etcdUrlArry.Value())
+		owl.SetRemoteAddr(etcdUrlArry.Value())
 		confKey := ctx.Args().Get(0)
-		confStr, err := owl.GetByKey(confKey)
+		confStr, err := owl.GetRemote(confKey)
 		if err != nil {
 			return err
 		}

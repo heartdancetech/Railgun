@@ -19,9 +19,9 @@ var runCmd = &cli.Command{
 		&cli.BoolFlag{Name: "dashboard", Value: false, Destination: &enableManage},
 	},
 	Action: func(ctx *cli.Context) error {
-		owl.SetAddr(etcdUrlArry.Value())
+		owl.SetRemoteAddr(etcdUrlArry.Value())
 		confKey := ctx.Args().Get(0)
-		confStr, err := owl.GetByKey(confKey)
+		confStr, err := owl.GetRemote(confKey)
 		if err != nil {
 		}
 		viper.SetConfigType("yaml")
