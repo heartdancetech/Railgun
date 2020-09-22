@@ -11,17 +11,17 @@ import (
 var logger *zap.Logger
 
 type reqLog struct {
-	Status     int
-	Method     string
-	Path       string
-	Query      string
-	Target     string
-	IP         string
-	RemoteAddr string
-	UserAgent  string
-	StartTime  time.Time
-	EndTime    time.Time
-	Latency    time.Duration
+	Status     int           `json:"status"`
+	Method     string        `json:"method"`
+	Path       string        `json:"path"`
+	Query      string        `json:"query"`
+	Target     string        `json:"target"`
+	IP         string        `json:"ip"`
+	RemoteAddr string        `json:"remote_addr"`
+	UserAgent  string        `json:"user_agent"`
+	StartTime  time.Time     `json:"start_time"`
+	EndTime    time.Time     `json:"end_time"`
+	Latency    time.Duration `json:"latency"`
 }
 
 func init() {
