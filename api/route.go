@@ -2,15 +2,15 @@ package api
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/gsxhnd/owl"
 	"github.com/railgun-project/railgun/assets"
 	_ "github.com/railgun-project/railgun/assets/statik"
-	"github.com/spf13/viper"
 	"net/http"
 )
 
 func routes() *mux.Router {
 	r := mux.NewRouter()
-	r.Use(AuthMdiddleware(viper.GetString("dashboard.user"), viper.GetString("dashboard.password")).Middleware)
+	r.Use(AuthMdiddleware(owl.GetString("dashboard.user"), owl.GetString("dashboard.password")).Middleware)
 	api := r.PathPrefix("/api").Subrouter()
 	api.Path("/conf/get_keys").HandlerFunc(GetKeysHandle).Methods("GET")
 	api.Path("/conf/get_value").HandlerFunc(GetValueHandle).Methods("GET")

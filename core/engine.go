@@ -1,8 +1,8 @@
 package core
 
 import (
+	"github.com/gsxhnd/owl"
 	"github.com/patrickmn/go-cache"
-	"github.com/spf13/viper"
 	"net"
 	"net/http"
 	"strings"
@@ -58,7 +58,7 @@ func (e *ProxyEngine) handleHTTPRequest(c *Context) {
 	//按照分隔符'/'对路径进行分解，获取服务名称serviceName
 	pathArray := strings.Split(reqPath, "/")
 	serviceName := pathArray[1]
-	destPathMap := viper.GetStringMapString("proxy")
+	destPathMap := owl.GetStringMapString("proxy")
 	destPath := strings.Join(pathArray[2:], "/")
 	c.Req.URL.Scheme = "http"
 	c.Req.URL.Host = destPathMap[serviceName]

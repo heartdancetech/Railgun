@@ -2,6 +2,7 @@
 
 ## v1.3.0
 - [feat] add `go-cache`
+- [chore] use `owl` instead of `viper` dep
 
 ## v1.2.0
 - [feat]: dashboard add auth middleware

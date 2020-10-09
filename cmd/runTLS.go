@@ -1,11 +1,9 @@
 package cmd
 
 import (
-	"bytes"
 	"github.com/gsxhnd/owl"
 	"github.com/railgun-project/railgun/api"
 	"github.com/railgun-project/railgun/core"
-	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
 )
 
@@ -22,14 +20,13 @@ var runTLSCmd = &cli.Command{
 		&cli.StringFlag{Name: "keyFile", Required: true, Destination: &keyFile},
 	},
 	Action: func(ctx *cli.Context) error {
-		owl.SetRemoteAddr(etcdUrlArry.Value())
+		_ = owl.SetRemoteAddr(etcdUrlArry.Value())
 		confKey := ctx.Args().Get(0)
 		confStr, err := owl.GetRemote(confKey)
 		if err != nil {
 			return err
 		}
-		viper.SetConfigType("yaml")
-		err = viper.ReadConfig(bytes.NewBuffer([]byte(confStr)))
+		err = owl.ReadInConf([]byte(confStr))
 		if err != nil {
 			return err
 		}
@@ -38,7 +35,7 @@ var runTLSCmd = &cli.Command{
 		go owl.Watcher(confKey, c)
 		go func() {
 			for i := range c {
-				_ = viper.ReadConfig(bytes.NewBuffer([]byte(i)))
+				_ = owl.ReadInConf([]byte(i))
 			}
 		}()
 
@@ -46,9 +43,9 @@ var runTLSCmd = &cli.Command{
 			go api.RunTLS(certFile, keyFile)
 		}
 
-		core.SetMode(viper.GetString("run_mode"))
+		core.SetMode(owl.GetString("run_mode"))
 		g := core.New()
-		_ = g.RunTLS(viper.GetString("addr"), certFile, keyFile)
+		_ = g.RunTLS(owl.GetString("addr"), certFile, keyFile)
 		return nil
 	},
 }
