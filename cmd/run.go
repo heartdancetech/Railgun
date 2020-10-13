@@ -1,11 +1,9 @@
 package cmd
 
 import (
-	"bytes"
 	"github.com/gsxhnd/owl"
 	"github.com/railgun-project/railgun/api"
 	"github.com/railgun-project/railgun/core"
-	"github.com/spf13/viper"
 	"github.com/urfave/cli/v2"
 )
 
@@ -19,13 +17,12 @@ var runCmd = &cli.Command{
 		&cli.BoolFlag{Name: "dashboard", Value: false, Destination: &enableManage},
 	},
 	Action: func(ctx *cli.Context) error {
-		owl.SetAddr(etcdUrlArry.Value())
+		_ = owl.SetRemoteAddr(etcdUrlArry.Value())
 		confKey := ctx.Args().Get(0)
-		confStr, err := owl.GetByKey(confKey)
+		confStr, err := owl.GetRemote(confKey)
 		if err != nil {
 		}
-		viper.SetConfigType("yaml")
-		err = viper.ReadConfig(bytes.NewBuffer([]byte(confStr)))
+		err = owl.ReadInConf([]byte(confStr))
 		if err != nil {
 			panic(err)
 		}
@@ -33,7 +30,7 @@ var runCmd = &cli.Command{
 		go owl.Watcher(confKey, c)
 		go func() {
 			for i := range c {
-				_ = viper.ReadConfig(bytes.NewBuffer([]byte(i)))
+				_ = owl.ReadInConf([]byte(i))
 			}
 		}()
 
@@ -41,9 +38,9 @@ var runCmd = &cli.Command{
 			go api.Run()
 		}
 
-		core.SetMode(viper.GetString("run_mode"))
+		core.SetMode(owl.GetString("run_mode"))
 		g := core.New()
-		_ = g.Run(viper.GetString("addr"))
+		_ = g.Run(owl.GetString("addr"))
 		return nil
 	},
 }

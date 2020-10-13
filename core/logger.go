@@ -10,7 +10,19 @@ import (
 
 var logger *zap.Logger
 
-//var logLevel = zap.NewAtomicLevel()
+type reqLog struct {
+	Status     int           `json:"status"`
+	Method     string        `json:"method"`
+	Path       string        `json:"path"`
+	Query      string        `json:"query"`
+	Target     string        `json:"target"`
+	IP         string        `json:"ip"`
+	RemoteAddr string        `json:"remote_addr"`
+	UserAgent  string        `json:"user_agent"`
+	StartTime  time.Time     `json:"start_time"`
+	EndTime    time.Time     `json:"end_time"`
+	Latency    time.Duration `json:"latency"`
+}
 
 func init() {
 	proEncoder := zapcore.NewJSONEncoder(zapcore.EncoderConfig{
@@ -20,7 +32,7 @@ func init() {
 		CallerKey:   "caller",
 		EncodeLevel: zapcore.CapitalLevelEncoder,
 		EncodeTime: func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-			enc.AppendString(t.UTC().Format("2006-01-02T15:04:05.000000-07:00"))
+			enc.AppendString(t.UTC().Format(time.RFC3339))
 		},
 		EncodeCaller: zapcore.ShortCallerEncoder,
 		EncodeDuration: func(d time.Duration, enc zapcore.PrimitiveArrayEncoder) {
@@ -66,29 +78,3 @@ func getWriter(filename string) io.Writer {
 	}
 	return hook
 }
-
-//func Debug(msg string, fields ...zap.Field) {
-//	logger.Debug(msg, fields...)
-//}
-//
-//func Info(msg string, fields ...zap.Field) {
-//	logger.Info(msg, fields...)
-//}
-//
-//func Warn(msg string, fields ...zap.Field) {
-//	logger.Warn(msg, fields...)
-//}
-//func Error(msg string, fields ...zap.Field) {
-//	logger.Error(msg, fields...)
-//}
-//
-//func Panic(msg string, fields ...zap.Field) {
-//	logger.Panic(msg, fields...)
-//}
-//func DPanic(msg string, fields ...zap.Field) {
-//	logger.DPanic(msg, fields...)
-//}
-//
-//func Fatal(msg string, fields ...zap.Field) {
-//	logger.Fatal(msg, fields...)
-//}
