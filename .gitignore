@@ -16,7 +16,6 @@ out/
 
 ### by self
 data/
-go.sum
 .DS_Store
 log
 build
