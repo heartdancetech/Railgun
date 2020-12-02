@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/railgun-project/railgun/utils"
 	"github.com/urfave/cli/v2"
 )
 
@@ -9,11 +10,11 @@ var enableManage bool
 var App = cli.NewApp()
 
 func init() {
+	cli.VersionPrinter = utils.PrintVersion
 	App.Usage = "railgun"
-	App.HideVersion = true
+	App.Version = utils.GetVersionTag()
 	App.Commands = []*cli.Command{
 		runCmd,
 		runTLSCmd,
-		versionCmd,
 	}
 }
