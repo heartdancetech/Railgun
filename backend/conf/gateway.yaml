@@ -1,0 +1,11 @@
+name: railgun
+run_mode: debug
+addr: :8000
+
+dashboard:
+  user: admin
+  password: admin
+
+proxy:
+  test01: 127.0.0.1:8001
+  test02: 127.0.0.1:8002
