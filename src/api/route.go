@@ -3,8 +3,8 @@ package api
 import (
 	"github.com/gorilla/mux"
 	"github.com/gsxhnd/owl"
-	"github.com/railgun-project/railgun/assets"
-	_ "github.com/railgun-project/railgun/assets/statik"
+	"github.com/heart-dance-x/railgun/src/assets"
+	_ "github.com/heart-dance-x/railgun/src/assets/statik"
 	"net/http"
 )
 

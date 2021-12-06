@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/railgun-project/railgun/assets"
-	_ "github.com/railgun-project/railgun/assets/statik"
+	"github.com/heart-dance-x/railgun/assets"
+	_ "github.com/heart-dance-x/railgun/assets/statik"
 	"net/http"
 	"time"
 )
