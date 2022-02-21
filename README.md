@@ -3,12 +3,9 @@
 ![](https://img.shields.io/github/v/release/railgun-project/railgun)
 [![Go Report Card](https://goreportcard.com/badge/github.com/railgun-project/railgun)](https://goreportcard.com/report/github.com/railgun-project/railgun)
 
-# railgun
+# Railgun
 
 A API Gateway written by [Golang](https://github.com/golang/go)
-
-1. [Website](https://railgun-project.github.io/)
-2. [中文网站](https://cn.railgun.gsxhnd.xyz)
 
 ## RoadMap
 
